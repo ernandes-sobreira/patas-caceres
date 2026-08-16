@@ -708,6 +708,36 @@ function fitMap(){
   }
   drawHeat();
 }
+function renderMapa(){
+  if(typeof L==='undefined'){
+    $('#map').innerHTML='<div class="empty" style="height:100%;display:grid;place-items:center">Não foi possível carregar o mapa base. Verifique a conexão e recarregue a página.</div>';
+  } else {
+    ensureMap();
+    setTimeout(()=>{ if(LMAP){ LMAP.invalidateSize(); fitMap(); } },150);
+  }
+  statsMapa();
+}
+function statsMapa(){
+  const src=$('#mapSrc').value, sel=layerFilter(srcSet(src),$('#mapLayer').value), c=clarkEvans(sel);
+  $('#clark').innerHTML=!c.ok
+    ? '<div class="empty"><b>Amostra insuficiente</b>São necessários ao menos 8 registros georreferenciados nesta camada.</div>'
+    : `<div class="statbox">
+        <div class="stat"><b>${fmt(c.R)}</b><span>Índice R</span></div>
+        <div class="stat"><b>${fmt(c.z)}</b><span>Escore z</span></div>
+        <div class="stat"><b>${pfmt(c.p)}</b><span>Valor de p</span></div>
+        <div class="stat"><b>${fmt(c.dens)}</b><span>Registros por km²</span></div></div>
+       <p style="font-size:13.5px;color:var(--ink-2);margin:12px 0 0">Distância média ao vizinho mais próximo de ${fmt(c.ro)} m contra ${fmt(c.re)} m esperados sob aleatoriedade, em ${fmt(c.areaKm2)} km² definidos pelo casco convexo. ${c.R<1?'R abaixo de 1 indica agregação':'R acima de 1 indica dispersão regular'}${c.p<.05?', com desvio significativo a 5%.':', mas o desvio não é significativo a 5%.'}</p>
+       <div class="warn" style="margin-top:12px">O casco convexo superestima a área quando os registros seguem ruas. Para o texto final, recorte pela malha urbana e recalcule.</div>`;
+  const b=countBy(srcSet(src),r=>r.bairro);
+  $('#bairroChart').innerHTML=b.length?barChart(b.slice(0,12),{color:'#2E6B72'}):'<div class="empty"><b>Sem bairros registrados</b>O bairro é preenchido na ficha, dentro de localização manual.</div>';
+  const semEsf=ST.ses.filter(s=>!s.distanceKm).length;
+  $('#mapWarn').innerHTML = src==='cidadao'
+    ? '<div class="bad"><b>Camada cidadã isolada.</b> Estes pontos não têm esforço amostral associado. O padrão reflete onde há moradores dispostos a registrar, e não pode ser lido como densidade de animais.</div>'
+    : (!ST.ses.length
+      ? '<div class="warn"><b>Este mapa ainda mostra onde a equipe passou, não onde estão os animais.</b> Sem sessões com distância percorrida não é possível separar densidade real de esforço de busca.</div>'
+      : (semEsf?`<div class="warn">${semEsf} sessão(ões) sem distância informada. A correção por esforço ignora essas saídas.</div>`:''));
+}
+
 document.addEventListener('input',e=>{
   if(['mapSrc','mapLayer','mapBw','mapPts','mapEffort'].includes(e.target.id)&&ST.view==='mapa'){
     drawHeat(); statsMapa();
