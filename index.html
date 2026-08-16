@@ -9,9 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#14212B; --ink-2:#4A5B66; --line:#DFE6E4; --bg:#FFFFFF; --soft:#F4F7F6;
-  --verde:#1E7A5F; --verde-2:#E6F2ED; --ocre:#E0A32E; --rio:#2A6FB0; --rubi:#C2423D; --roxo:#6B4E9E;
-  --r:14px; --shadow:0 1px 2px rgba(20,33,43,.06), 0 8px 24px rgba(20,33,43,.06);
+  --ink:#2B1D12; --ink-2:#6E5847; --line:#E7DACA; --bg:#FFFFFF; --soft:#FAF4EC;
+  --caramelo:#B9722C; --caramelo-2:#FBEEDD; --caramelo-3:#8A4E1D; --areia:#F3E3CE;
+  --oliva:#6F7F45; --teal:#2E6B72; --telha:#B23A2E; --dourado:#D79A4E;
+  --r:14px; --shadow:0 1px 2px rgba(43,29,18,.07), 0 8px 24px rgba(43,29,18,.07);
   --disp:'Archivo','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,-apple-system,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
 }
 *{box-sizing:border-box}
@@ -19,7 +20,7 @@ html,body{margin:0;padding:0;overflow-x:hidden}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
 h1,h2,h3,h4{font-family:var(--disp);margin:0;letter-spacing:-.01em;line-height:1.15}
 button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
-a{color:var(--verde)}
+a{color:var(--caramelo)}
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
 header.top{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .topbar{display:flex;align-items:center;gap:14px;padding:12px 0}
@@ -29,12 +30,12 @@ header.top{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);bac
 .brand-s{font-size:11px;color:var(--ink-2);letter-spacing:.06em;text-transform:uppercase;font-family:var(--mono)}
 .spacer{flex:1}
 .btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 16px;font-weight:600;cursor:pointer;transition:.15s;font-size:14px}
-.btn:hover{border-color:var(--verde);color:var(--verde)}
-.btn:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--rio);outline-offset:2px}
-.btn.pri{background:var(--verde);border-color:var(--verde);color:#fff}
-.btn.pri:hover{background:#186A52;color:#fff}
+.btn:hover{border-color:var(--caramelo);color:var(--caramelo)}
+.btn:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.btn.pri{background:var(--caramelo);border-color:var(--caramelo);color:#fff}
+.btn.pri:hover{background:var(--caramelo-3);color:#fff}
 .btn.sm{padding:6px 12px;font-size:13px}
-.btn.danger{color:var(--rubi);border-color:#F0CFCE}
+.btn.danger{color:var(--telha);border-color:#F0CFCE}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .gbtn{display:inline-flex;align-items:center;gap:9px}
 .gbtn svg{width:17px;height:17px}
@@ -43,21 +44,21 @@ nav.tabs::-webkit-scrollbar{display:none}
 .tab{white-space:nowrap;border:0;background:none;padding:8px 13px;border-radius:999px;cursor:pointer;font-weight:600;color:var(--ink-2);font-size:14px}
 .tab:hover{background:var(--soft)}
 .tab.on{background:var(--ink);color:#fff}
-.tab.res{color:var(--verde)}
-.tab.res.on{background:var(--verde);color:#fff}
-.userchip{display:flex;align-items:center;gap:8px;background:var(--verde-2);color:#0E4C3B;border-radius:999px;padding:5px 7px 5px 12px;font-size:13px;font-weight:600}
+.tab.res{color:var(--caramelo)}
+.tab.res.on{background:var(--caramelo);color:#fff}
+.userchip{display:flex;align-items:center;gap:8px;background:var(--caramelo-2);color:var(--caramelo-3);border-radius:999px;padding:5px 7px 5px 12px;font-size:13px;font-weight:600}
 .userchip img{width:26px;height:26px;border-radius:50%}
 .hero{padding:34px 0 26px;border-bottom:1px solid var(--line)}
 .hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:34px;align-items:center}
-.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--verde);font-weight:600}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--caramelo);font-weight:600}
 .hero h1{font-size:clamp(30px,5vw,50px);font-weight:800;margin:10px 0 12px}
-.hero h1 em{font-style:normal;color:var(--verde)}
+.hero h1 em{font-style:normal;color:var(--caramelo)}
 .lede{color:var(--ink-2);font-size:16px;max-width:52ch}
 .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .kpi{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:#fff}
 .kpi b{font-family:var(--disp);font-size:30px;display:block;line-height:1.05}
 .kpi span{font-size:11.5px;color:var(--ink-2);font-family:var(--mono);letter-spacing:.05em;text-transform:uppercase}
-.kpi.v b{color:var(--verde)} .kpi.o b{color:var(--ocre)} .kpi.r b{color:var(--rio)} .kpi.x b{color:var(--roxo)}
+.kpi.v b{color:var(--caramelo)} .kpi.o b{color:var(--dourado)} .kpi.r b{color:var(--teal)} .kpi.x b{color:var(--oliva)}
 section.view{padding:26px 0 60px;display:none}
 section.view.on{display:block}
 .head{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:16px}
@@ -69,9 +70,9 @@ section.view.on{display:block}
 .card .sub{color:var(--ink-2);font-size:13px;margin:0 0 14px}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:16px}
 .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px}
-.note{background:var(--verde-2);border-left:3px solid var(--verde);border-radius:0 10px 10px 0;padding:11px 14px;font-size:13.5px;color:#12503E}
-.warn{background:#FDF3E3;border-left:3px solid var(--ocre);border-radius:0 10px 10px 0;padding:11px 14px;font-size:13.5px;color:#6C4D0C}
-.bad{background:#FBE9E8;border-left:3px solid var(--rubi);border-radius:0 10px 10px 0;padding:11px 14px;font-size:13.5px;color:#8E2B27}
+.note{background:var(--caramelo-2);border-left:3px solid var(--caramelo);border-radius:0 10px 10px 0;padding:11px 14px;font-size:13.5px;color:#6B3D12}
+.warn{background:#FBF2DC;border-left:3px solid var(--dourado);border-radius:0 10px 10px 0;padding:11px 14px;font-size:13.5px;color:#6B520C}
+.bad{background:#F9E7E4;border-left:3px solid var(--telha);border-radius:0 10px 10px 0;padding:11px 14px;font-size:13.5px;color:#8A2A22}
 .empty{border:1px dashed var(--line);border-radius:var(--r);padding:34px 20px;text-align:center;color:var(--ink-2)}
 .empty b{display:block;font-family:var(--disp);color:var(--ink);font-size:17px;margin-bottom:6px}
 .field{margin-bottom:13px}
@@ -81,11 +82,11 @@ input[type=text],input[type=email],input[type=number],input[type=date],input[typ
 textarea{min-height:76px;resize:vertical}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
 .chip{border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:13px;background:#fff;user-select:none}
-.chip.on{background:var(--verde);color:#fff;border-color:var(--verde)}
+.chip.on{background:var(--caramelo);color:#fff;border-color:var(--caramelo)}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .scale{display:flex;gap:5px;flex-wrap:wrap}
 .scale button{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer;font-family:var(--mono);font-weight:600}
-.scale button.on{background:var(--ocre);border-color:var(--ocre);color:#fff}
+.scale button.on{background:var(--dourado);border-color:var(--dourado);color:#fff}
 .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
 table{border-collapse:collapse;width:100%;font-size:13px}
 th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
@@ -94,7 +95,7 @@ td.num,th.num{text-align:right;font-family:var(--mono)}
 .mapbox{position:relative;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff}
 #mapCanvas{display:block;width:100%;height:auto}
 .maplegend{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-2);flex-wrap:wrap}
-.ramp{height:10px;width:170px;border-radius:5px;background:linear-gradient(90deg,#FFFFFF,#FFF2C4,#F7C948,#E8823C,#C2423D,#7A1E2C);border:1px solid var(--line)}
+.ramp{height:10px;width:170px;border-radius:5px;background:linear-gradient(90deg,#FFFFFF,#FDF0DE,#F4CE8F,#D68D3A,#A84F20,#5E2411);border:1px solid var(--line)}
 .mapctrl{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
 .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:16px}
 .pcard{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff;display:flex;flex-direction:column}
@@ -105,13 +106,13 @@ td.num,th.num{text-align:right;font-family:var(--mono)}
 .meta{font-size:12px;color:var(--ink-2);font-family:var(--mono)}
 .tags{display:flex;gap:5px;flex-wrap:wrap}
 .tag{font-size:11px;padding:3px 8px;border-radius:999px;background:var(--soft);color:var(--ink-2);font-weight:600}
-.tag.v{background:var(--verde-2);color:#0E4C3B}
-.tag.o{background:#FDF3E3;color:#6C4D0C}
-.tag.r{background:#FBE9E8;color:#8E2B27}
-.tag.x{background:#EFEAF8;color:#4A3573}
+.tag.v{background:#E8EEDD;color:#42522A}
+.tag.o{background:#FDF3E3;color:#6B520C}
+.tag.r{background:#FBE9E8;color:#8A2A22}
+.tag.x{background:#E4EEEF;color:#22545A}
 .acts{display:flex;gap:8px;align-items:center;border-top:1px solid var(--line);padding:9px 13px}
 .like{border:0;background:none;cursor:pointer;font-weight:600;color:var(--ink-2);display:flex;gap:6px;align-items:center;padding:0}
-.like.on{color:var(--rubi)}
+.like.on{color:var(--telha)}
 .chart{width:100%;height:auto;display:block;overflow:visible}
 .statbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
 .stat{background:var(--soft);border-radius:10px;padding:11px 13px}
@@ -123,7 +124,7 @@ td.num,th.num{text-align:right;font-family:var(--mono)}
 .modal.wide .inner{max-width:820px}
 .x{border:0;background:var(--soft);border-radius:999px;width:32px;height:32px;cursor:pointer;font-size:17px;line-height:1}
 .boot{position:fixed;inset:0;background:#fff;z-index:100;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center;padding:24px}
-.spin{width:34px;height:34px;border:3px solid var(--verde-2);border-top-color:var(--verde);border-radius:50%;animation:sp .8s linear infinite}
+.spin{width:34px;height:34px;border:3px solid var(--areia);border-top-color:var(--caramelo);border-radius:50%;animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--ink-2);font-size:13px}
 .credits{font-family:var(--mono);font-size:12px}
@@ -131,31 +132,41 @@ footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--ink-2);f
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .cmt{border-top:1px solid var(--line);padding:10px 0;font-size:13.5px}
 .quiz-opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 13px;margin-bottom:8px;cursor:pointer}
-.quiz-opt.ok{border-color:var(--verde);background:var(--verde-2)}
-.quiz-opt.no{border-color:var(--rubi);background:#FBE9E8}
-.offline{background:var(--ocre);color:#3D2B04;text-align:center;font-size:13px;font-weight:600;padding:6px;display:none}
+.quiz-opt.ok{border-color:var(--oliva);background:#EDF2E3}
+.quiz-opt.no{border-color:var(--telha);background:#F9E7E4}
+.offline{background:var(--dourado);color:#3D2B04;text-align:center;font-size:13px;font-weight:600;padding:6px;display:none}
 .offline.on{display:block}
 /* formulário rápido */
 .form-col{max-width:660px;margin:0 auto}
 .step{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.step b{width:26px;height:26px;border-radius:50%;background:var(--verde);color:#fff;display:grid;place-items:center;font-family:var(--mono);font-size:13px;flex:none}
+.step b{width:26px;height:26px;border-radius:50%;background:var(--caramelo);color:#fff;display:grid;place-items:center;font-family:var(--mono);font-size:13px;flex:none}
 .step h3{font-size:17px}
 .step span{font-size:12.5px;color:var(--ink-2)}
 .photobtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100%;min-height:160px;border:2px dashed var(--line);border-radius:14px;background:var(--soft);cursor:pointer;font-weight:600;color:var(--ink-2);text-align:center;padding:16px}
-.photobtn svg{width:36px;height:36px;stroke:var(--verde);fill:none;stroke-width:1.7}
+.photobtn svg{width:36px;height:36px;stroke:var(--caramelo);fill:none;stroke-width:1.7}
 .bigchips{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
 .bigchip{min-height:54px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-weight:600;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 10px;line-height:1.25}
-.bigchip.on{background:var(--verde);border-color:var(--verde);color:#fff}
-.bigchip.on.warnsel{background:var(--rubi);border-color:var(--rubi)}
+.bigchip.on{background:var(--caramelo);border-color:var(--caramelo);color:#fff}
+.bigchip.on.warnsel{background:var(--telha);border-color:var(--telha)}
 .geo{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600}
-.dot{width:11px;height:11px;border-radius:50%;background:var(--ocre);flex:none}
-.dot.ok{background:var(--verde)} .dot.no{background:var(--rubi)}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--dourado);flex:none}
+.dot.ok{background:var(--oliva)} .dot.no{background:var(--telha)}
 details.adv{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:#fff}
 details.adv summary{cursor:pointer;font-family:var(--disp);font-weight:700;font-size:16px;list-style:none}
 details.adv summary::-webkit-details-marker{display:none}
 details.adv summary::after{content:' ▾';color:var(--ink-2)}
 details.adv[open] summary::after{content:' ▴'}
 details.adv .inner{padding-top:14px}
+.req::after{content:' obrigatório';font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--caramelo-3);background:var(--areia);padding:2px 7px;border-radius:999px;margin-left:6px;font-weight:600}
+.card.pending{border-color:var(--caramelo);box-shadow:0 0 0 3px var(--caramelo-2)}
+.likert{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.likert .anchors{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-2);font-family:var(--mono);margin-bottom:8px;gap:8px}
+.likert .anchors span:last-child{text-align:right}
+.likert .opts{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.likert .opts button{min-height:50px;border:1.5px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;font-family:var(--mono);font-weight:600;font-size:16px;color:var(--ink-2)}
+.likert .opts button.on{color:#fff;border-color:transparent}
+.likert .sel{margin-top:9px;font-size:13.5px;font-weight:600;min-height:20px}
+.lk1{background:#B23A2E} .lk2{background:#D07A2C} .lk3{background:#D79A4E} .lk4{background:#8C9A55} .lk5{background:#6F7F45}
 .savebar{position:sticky;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px 0 16px;margin-top:18px;z-index:30}
 .savebar .btn{width:100%;min-height:54px;font-size:16px}
 @media (max-width:860px){.brand-s{display:none}}
@@ -165,7 +176,7 @@ details.adv .inner{padding-top:14px}
 <body>
 
 <div class="boot" id="boot">
-  <svg class="paw" viewBox="0 0 48 48" width="46" height="46" aria-hidden="true"><g fill="#1E7A5F"><ellipse cx="15" cy="14" rx="5.2" ry="6.6"/><ellipse cx="27" cy="11" rx="5.2" ry="6.9"/><ellipse cx="38" cy="17" rx="4.8" ry="6"/><path d="M24 21c6.2 0 12 5.4 12 11.4 0 4.6-3.6 7.6-8.4 7.6-2 0-3 -.9-3.6-.9s-1.6.9-3.6.9c-4.8 0-8.4-3-8.4-7.6C12 26.4 17.8 21 24 21z"/></g></svg>
+  <svg class="paw" viewBox="0 0 48 48" width="46" height="46" aria-hidden="true"><g fill="#B9722C"><ellipse cx="15" cy="14" rx="5.2" ry="6.6"/><ellipse cx="27" cy="11" rx="5.2" ry="6.9"/><ellipse cx="38" cy="17" rx="4.8" ry="6"/><path d="M24 21c6.2 0 12 5.4 12 11.4 0 4.6-3.6 7.6-8.4 7.6-2 0-3 -.9-3.6-.9s-1.6.9-3.6.9c-4.8 0-8.4-3-8.4-7.6C12 26.4 17.8 21 24 21z"/></g></svg>
   <div class="spin" id="bootSpin"></div>
   <div id="bootMsg" style="max-width:460px"><b style="font-family:var(--disp)">Conectando ao banco de dados</b><br><span style="color:var(--ink-2);font-size:14px">Carregando avistamentos, sessões de campo e interações.</span></div>
   <button class="btn" id="bootRetry" style="display:none">Tentar novamente</button>
@@ -177,7 +188,7 @@ details.adv .inner{padding-top:14px}
   <div class="wrap">
     <div class="topbar">
       <button class="brand" id="brandBtn" aria-label="Página inicial">
-        <svg class="paw" viewBox="0 0 48 48" aria-hidden="true"><g fill="#1E7A5F"><ellipse cx="15" cy="14" rx="5.2" ry="6.6"/><ellipse cx="27" cy="11" rx="5.2" ry="6.9"/><ellipse cx="38" cy="17" rx="4.8" ry="6"/><path d="M24 21c6.2 0 12 5.4 12 11.4 0 4.6-3.6 7.6-8.4 7.6-2 0-3 -.9-3.6-.9s-1.6.9-3.6.9c-4.8 0-8.4-3-8.4-7.6C12 26.4 17.8 21 24 21z"/></g></svg>
+        <svg class="paw" viewBox="0 0 48 48" aria-hidden="true"><g fill="#B9722C"><ellipse cx="15" cy="14" rx="5.2" ry="6.6"/><ellipse cx="27" cy="11" rx="5.2" ry="6.9"/><ellipse cx="38" cy="17" rx="4.8" ry="6"/><path d="M24 21c6.2 0 12 5.4 12 11.4 0 4.6-3.6 7.6-8.4 7.6-2 0-3 -.9-3.6-.9s-1.6.9-3.6.9c-4.8 0-8.4-3-8.4-7.6C12 26.4 17.8 21 24 21z"/></g></svg>
         <span><span class="brand-t">PATAS DE CÁCERES</span><br><span class="brand-s">Censo urbano de cães e gatos</span></span>
       </button>
       <span class="spacer"></span>
@@ -228,7 +239,7 @@ details.adv .inner{padding-top:14px}
     <label style="font-size:13px;font-weight:600">Camada
       <select id="mapLayer" style="width:auto;margin-left:6px">
         <option value="all">Cães e gatos</option><option value="Cão">Somente cães</option><option value="Gato">Somente gatos</option>
-        <option value="ruim">Condição corporal baixa</option><option value="ninhada">Fêmeas lactantes ou gestantes</option>
+        <option value="ruim">Condição corporal baixa</option><option value="bemestar">Bem estar comprometido</option><option value="pelo">Pele e pelagem ruins</option><option value="mob">Dificuldade de locomoção</option><option value="ninhada">Fêmeas lactantes ou gestantes</option>
         <option value="agress">Reação agressiva</option><option value="doente">Com sinais clínicos</option>
       </select></label>
     <label style="font-size:13px;font-weight:600">Banda
@@ -256,7 +267,7 @@ details.adv .inner{padding-top:14px}
     <div class="row">
       <select id="galSrc" style="width:auto"><option value="">Todas as origens</option><option value="protocolo">Protocolo</option><option value="cidadao">Cidadão</option></select>
       <select id="galSp" style="width:auto"><option value="">Todas as espécies</option><option>Cão</option><option>Gato</option></select>
-      <select id="galSort" style="width:auto"><option value="new">Mais recentes</option><option value="like">Mais curtidos</option><option value="bcs">Pior condição corporal</option></select>
+      <select id="galSort" style="width:auto"><option value="new">Mais recentes</option><option value="like">Mais curtidos</option><option value="bcs">Pior bem estar</option></select>
     </div></div>
   <div class="gal" id="galeria"></div>
 </div></section>
@@ -397,7 +408,7 @@ const ST={recs:[],ses:[],inter:{},me:null,view:'inicio',ready:false};
 
 function bootFail(t,m,cfg){
   $('#bootSpin').style.display='none';
-  $('#bootMsg').innerHTML=`<b style="font-family:var(--disp);color:var(--rubi)">${esc(t)}</b><br><span style="color:var(--ink-2);font-size:14px">${m}</span>`;
+  $('#bootMsg').innerHTML=`<b style="font-family:var(--disp);color:var(--telha)">${esc(t)}</b><br><span style="color:var(--ink-2);font-size:14px">${m}</span>`;
   if(!cfg) $('#bootRetry').style.display='inline-block';
 }
 $('#bootRetry').onclick=()=>location.reload();
@@ -553,13 +564,13 @@ function contingency(recs,va,vb){
   return{A,B,O,rt,ct,N,x2,df,p:chi2p(x2,df),V:Math.sqrt(x2/(N*Math.min(A.length-1,B.length-1))),low,cells:A.length*B.length};
 }
 
-const PAL=['#1E7A5F','#2A6FB0','#E0A32E','#C2423D','#6B4E9E','#3AA88B','#7BA4CE','#B08A2E'];
+const PAL=['#B9722C','#2E6B72','#6F7F45','#B23A2E','#8A4E1D','#D79A4E','#4E8A90','#A8853F'];
 function barChart(pairs,o={}){
   if(!pairs.length)return'<div class="empty">Sem dados suficientes.</div>';
   const w=520,bh=30,gap=8,lw=o.lw||140,h=pairs.length*(bh+gap)+20,max=Math.max(...pairs.map(p=>p[1]))||1;
   let s=`<svg class="chart" viewBox="0 0 ${w} ${h}" role="img">`;
   pairs.forEach((p,i)=>{const y=i*(bh+gap),bw=Math.max(2,(p[1]/max)*(w-lw-62));
-    s+=`<text x="0" y="${y+20}" font-size="13" font-family="IBM Plex Sans" fill="#4A5B66">${esc(String(p[0]).slice(0,22))}</text>`;
+    s+=`<text x="0" y="${y+20}" font-size="13" font-family="IBM Plex Sans" fill="#6E5847">${esc(String(p[0]).slice(0,22))}</text>`;
     s+=`<rect x="${lw}" y="${y+3}" width="${bw}" height="${bh-6}" rx="5" fill="${o.color||PAL[i%PAL.length]}"/>`;
     s+=`<text x="${lw+bw+8}" y="${y+20}" font-size="13" font-family="IBM Plex Mono">${fmt(p[1])}${o.suf||''}</text>`;});
   return s+'</svg>';
@@ -568,12 +579,12 @@ function histChart(v,min,max,o={}){
   if(!v.length)return'<div class="empty">Sem dados suficientes.</div>';
   const bins=[];for(let i=min;i<=max;i++)bins.push(v.filter(x=>x===i).length);
   const w=520,h=190,pad=30,bw=(w-pad-10)/bins.length,mx=Math.max(...bins)||1;
-  let s=`<svg class="chart" viewBox="0 0 ${w} ${h+34}" role="img"><line x1="${pad}" y1="${h}" x2="${w-6}" y2="${h}" stroke="#DFE6E4"/>`;
+  let s=`<svg class="chart" viewBox="0 0 ${w} ${h+34}" role="img"><line x1="${pad}" y1="${h}" x2="${w-6}" y2="${h}" stroke="#E7DACA"/>`;
   bins.forEach((c,i)=>{const bh=(c/mx)*(h-16),x=pad+i*bw,col=(min+i)<=3?'#C2423D':(min+i)<=6?'#1E7A5F':'#E0A32E';
     s+=`<rect x="${x+3}" y="${h-bh}" width="${bw-6}" height="${bh}" rx="4" fill="${col}"/>`;
     if(c)s+=`<text x="${x+bw/2}" y="${h-bh-5}" font-size="12" text-anchor="middle" font-family="IBM Plex Mono">${c}</text>`;
-    s+=`<text x="${x+bw/2}" y="${h+18}" font-size="12" text-anchor="middle" font-family="IBM Plex Mono" fill="#4A5B66">${min+i}</text>`;});
-  return s+`<text x="${pad}" y="${h+33}" font-size="12" font-family="IBM Plex Sans" fill="#4A5B66">${esc(o.xlab||'')}</text></svg>`;
+    s+=`<text x="${x+bw/2}" y="${h+18}" font-size="12" text-anchor="middle" font-family="IBM Plex Mono" fill="#6E5847">${min+i}</text>`;});
+  return s+`<text x="${pad}" y="${h+33}" font-size="12" font-family="IBM Plex Sans" fill="#6E5847">${esc(o.xlab||'')}</text></svg>`;
 }
 function donut(pairs){
   const tot=pairs.reduce((s,p)=>s+p[1],0);
@@ -598,9 +609,12 @@ function srcSet(src){
 function layerFilter(recs,mode){
   const r=recs.filter(x=>x.lat&&x.lon);
   if(mode==='Cão'||mode==='Gato')return r.filter(x=>x.species===mode);
-  if(mode==='ruim')return r.filter(x=>x.bcs&&x.bcs<=3);
+  if(mode==='ruim')return r.filter(x=>x.lkCorpo?x.lkCorpo<=2:(x.bcs&&x.bcs<=3));
+  if(mode==='bemestar')return r.filter(x=>x.bemEstar&&x.bemEstar<3);
+  if(mode==='pelo')return r.filter(x=>x.lkPelo&&x.lkPelo<=2);
+  if(mode==='mob')return r.filter(x=>x.lkMob&&x.lkMob<=2);
   if(mode==='ninhada')return r.filter(x=>x.lactating||x.pregnant);
-  if(mode==='agress')return r.filter(x=>x.behavior==='Agressivo');
+  if(mode==='agress')return r.filter(x=>x.lkSoc?x.lkSoc<=2:x.behavior==='Agressivo');
   if(mode==='doente')return r.filter(x=>(x.clinical||[]).length>0);
   return r;
 }
@@ -621,7 +635,7 @@ function drawMap(){
   const base=srcSet(src), pts=layerFilter(base,$('#mapLayer').value);
   ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
   if(!pts.length){
-    ctx.fillStyle='#4A5B66';ctx.textAlign='center';ctx.font='500 22px Archivo, sans-serif';
+    ctx.fillStyle='#6E5847';ctx.textAlign='center';ctx.font='500 22px Archivo, sans-serif';
     ctx.fillText('Nenhum registro nesta combinação de filtros',W/2,H/2-6);
     ctx.font='400 15px IBM Plex Sans, sans-serif';
     ctx.fillText('O mapa usa apenas dados reais gravados no banco.',W/2,H/2+22);
@@ -648,7 +662,7 @@ function drawMap(){
   if(eff){const f=new Float64Array(g.length),emax=Math.max(...eg);
     for(let k=0;k<g.length;k++)f[k]=eg[k]>emax*.03?g[k]/eg[k]:0;field=f;}
   const max=Math.max(...field)||1;
-  const stops=[[255,255,255],[255,242,196],[247,201,72],[232,130,60],[194,66,61],[122,30,44]];
+  const stops=[[255,255,255],[253,240,222],[244,206,143],[214,141,58],[168,79,32],[94,36,17]];
   const img=ctx.createImageData(W,H);
   for(let y=0;y<H;y++){const gy=Math.min(GY-1,Math.floor((1-y/H)*GY));
     for(let x=0;x<W;x++){const gx=Math.min(GX-1,Math.floor(x/W*GX));
@@ -656,8 +670,8 @@ function drawMap(){
       const i0=Math.floor(u),f2=u-i0,a=stops[i0],b=stops[i0+1],o=(y*W+x)*4;
       img.data[o]=a[0]+(b[0]-a[0])*f2;img.data[o+1]=a[1]+(b[1]-a[1])*f2;img.data[o+2]=a[2]+(b[2]-a[2])*f2;img.data[o+3]=255;}}
   ctx.putImageData(img,0,0);
-  ctx.strokeStyle='rgba(20,33,43,.10)';ctx.lineWidth=1;ctx.font='400 12px IBM Plex Mono, monospace';
-  ctx.fillStyle='rgba(20,33,43,.55)';ctx.textAlign='left';
+  ctx.strokeStyle='rgba(43,29,18,.10)';ctx.lineWidth=1;ctx.font='400 12px IBM Plex Mono, monospace';
+  ctx.fillStyle='rgba(43,29,18,.55)';ctx.textAlign='left';
   for(let i=1;i<6;i++){
     const x=W*i/6,lon=B.lo[0]+(B.lo[1]-B.lo[0])*i/6;
     ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();ctx.fillText(lon.toFixed(3)+'°',x+4,H-8);
@@ -667,12 +681,12 @@ function drawMap(){
   if(showPts) pts.forEach(p=>{
     const x=((p.lon-B.lo[0])/(B.lo[1]-B.lo[0]))*W, y=H-((p.lat-B.la[0])/(B.la[1]-B.la[0]))*H;
     ctx.beginPath();ctx.arc(x,y,4.6,0,7);
-    ctx.fillStyle=p.tipo==='cidadao'?'#6B4E9E':(p.species==='Gato'?'#2A6FB0':'#14212B');
+    ctx.fillStyle=p.tipo==='cidadao'?'#6F7F45':(p.species==='Gato'?'#2E6B72':'#5C3517');
     ctx.fill();ctx.lineWidth=1.6;ctx.strokeStyle='#fff';ctx.stroke();});
   const kmPx=W/((B.lo[1]-B.lo[0])*mLon/1000), barKm=kmPx>240?.5:1;
   ctx.fillStyle='rgba(255,255,255,.85)';ctx.fillRect(W-190,H-52,178,40);
-  ctx.strokeStyle='#14212B';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(W-176,H-24);ctx.lineTo(W-176+barKm*kmPx,H-24);ctx.stroke();
-  ctx.fillStyle='#14212B';ctx.font='600 13px IBM Plex Mono, monospace';ctx.fillText(barKm+' km',W-176,H-32);
+  ctx.strokeStyle='#2B1D12';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(W-176,H-24);ctx.lineTo(W-176+barKm*kmPx,H-24);ctx.stroke();
+  ctx.fillStyle='#2B1D12';ctx.font='600 13px IBM Plex Mono, monospace';ctx.fillText(barKm+' km',W-176,H-32);
   $('#mapInfo').textContent=pts.length+' registros'+(eff?' · corrigido por km percorrido':'');
 }
 function renderMapa(){
@@ -725,7 +739,8 @@ function cardHTML(r){
       <div class="tags">
         <span class="tag ${r.tipo==='cidadao'?'x':'v'}">${r.tipo==='cidadao'?'cidadão':'protocolo'}</span>
         ${r.tipo==='cidadao'?`<span class="tag ${r.status==='validado'?'v':r.status==='descartado'?'r':'o'}">${esc(r.status)}</span>`:''}
-        ${r.bcs?`<span class="tag ${r.bcs<=3?'r':r.bcs<=6?'v':'o'}">BCS ${r.bcs}</span>`:''}
+        ${r.bemEstar?`<span class="tag ${r.bemEstar<2.5?'r':r.bemEstar<3.5?'o':'v'}">bem estar ${fmt(r.bemEstar)}</span>`:(r.bcs?`<span class="tag ${r.bcs<=3?'r':r.bcs<=6?'v':'o'}">BCS ${r.bcs}</span>`:'')}
+        ${r.colorPattern?`<span class="tag">${esc(r.colorPattern)}</span>`:''}
         ${(r.clinical||[]).length?`<span class="tag r">${r.clinical.length} sinal(is)</span>`:''}
       </div>
       <div class="meta">${esc(r.bairro||'bairro não informado')} · ${dtBR(r.datetime)}</div>
@@ -745,7 +760,7 @@ function renderGaleria(){
   const so=$('#galSort').value; r=[...r];
   if(so==='new')r.sort((a,b)=>String(b.datetime).localeCompare(String(a.datetime)));
   if(so==='like')r.sort((a,b)=>((ST.inter[b.id]||{}).likes||[]).length-((ST.inter[a.id]||{}).likes||[]).length);
-  if(so==='bcs')r.sort((a,b)=>(a.bcs||99)-(b.bcs||99));
+  if(so==='bcs')r.sort((a,b)=>(a.bemEstar||99)-(b.bemEstar||99));
   $('#galeria').innerHTML=r.length?r.map(cardHTML).join('')
     :'<div class="empty" style="grid-column:1/-1"><b>Nenhum animal registrado</b>A galeria é alimentada exclusivamente por fichas reais.</div>';
   hydrate();
@@ -794,12 +809,20 @@ async function openRecord(id){
       ${F('Origem',r.tipo==='cidadao'?'Contribuição de morador ('+r.status+')':'Coleta de protocolo')}
       ${F('Enviado por',r.autor)}
       ${F('Sexo',r.sex)}${F('Classe etária',r.ageClass)}${F('Porte',r.size)}${F('Pelagem',r.coat)}
-      ${F('Escore corporal',r.bcs)}${F('Castrado',r.neutered)}${F('Vínculo aparente',r.ownership)}
-      ${F('Reação ao observador',r.behavior)}${F('Tamanho do grupo',r.groupSize)}${F('Fonte de alimento',r.food)}
+      ${F('Índice de bem estar',r.bemEstar?fmt(r.bemEstar)+' de 5':'')}
+      ${F('Condição corporal',r.lkCorpo?r.lkCorpo+' · '+LKROT.corpo[r.lkCorpo-1]:'')}
+      ${F('Pelagem e pele',r.lkPelo?r.lkPelo+' · '+LKROT.pelo[r.lkPelo-1]:'')}
+      ${F('Locomoção',r.lkMob?r.lkMob+' · '+LKROT.mob[r.lkMob-1]:'')}
+      ${F('Vitalidade',r.lkVit?r.lkVit+' · '+LKROT.vit[r.lkVit-1]:'')}
+      ${F('Reação ao observador',r.lkSoc?r.lkSoc+' · '+LKROT.soc[r.lkSoc-1]:'')}
+      ${F('Relação com pessoas',r.lkHum?r.lkHum+' · '+LKROT.hum[r.lkHum-1]:'')}
+      ${F('Cor predominante',r.colorPattern)}${F('Castrado',r.neutered)}${F('Vínculo aparente',r.ownership)}
+      ${F('Tamanho do grupo',r.groupSize)}${F('Fonte de alimento',r.food)}
       ${F('Abrigo',r.shelter)}${F('Coleira',r.collar)}
       ${F('Coordenadas',r.lat?fmt(r.lat)+', '+fmt(r.lon)+(r.acc?' (±'+Math.round(r.acc)+' m)':''):'')}
       ${F('Sessão',s?s.name:'')}
     </div>
+    ${(r.contexto||[]).length?`<div style="margin-top:8px"><span class="meta">Situação observada</span><div class="tags" style="margin-top:5px">${r.contexto.map(c=>`<span class="tag o">${esc(c)}</span>`).join('')}</div></div>`:''}
     ${(r.clinical||[]).length?`<div style="margin-top:8px"><span class="meta">Sinais clínicos visíveis</span><div class="tags" style="margin-top:5px">${r.clinical.map(c=>`<span class="tag r">${esc(c)}</span>`).join('')}</div></div>`:''}
     ${r.marks?`<p style="margin-top:10px"><span class="meta">Marcas individuais</span><br>${esc(r.marks)}</p>`:''}
     ${r.notes?`<p style="margin-top:6px"><span class="meta">Observações</span><br>${esc(r.notes)}</p>`:''}
@@ -830,15 +853,15 @@ async function delComment(id,i){
 }
 
 const CLIN=['Ferida aberta','Sarna ou lesão de pele','Emagrecimento acentuado','Claudicação','Secreção ocular','Tumor visível','Otite ou orelha lesionada','Miíase (bicheira)'];
-let _geo=null,_photo=null,_clin=new Set(),_bcs=null,_sp='Cão';
+let _geo=null,_photo=null,_clin=new Set(),_sp='Cão',_lk={},_extra={};
 function renderRegistrar(){
-  _geo=null;_photo=null;_clin=new Set();_bcs=null;_sp='Cão';
+  _photo=null;_clin=new Set();_sp='Cão';_lk={};_extra={};
   const eq=isEquipe();
   $('#regTitle').textContent = 'Registrar um animal';
   $('#regLede').textContent = !ST.me
-    ? 'Entre com sua conta Google para enviar. Leva menos de um minuto: foto, localização e três toques.'
-    : (eq ? 'Foto, local e três toques. A ficha completa de protocolo fica no fim, quando você tiver tempo.'
-          : 'Foto, local e três toques. A equipe confere o registro depois.');
+    ? 'Entre com sua conta Google para enviar. Leva menos de um minuto: foto, localização e as escalas.'
+    : (eq ? 'Avaliação rápida por domínios. A ficha completa de protocolo fica no fim, quando você tiver tempo.'
+          : 'Foto, localização e cinco escalas. A equipe confere o registro depois.');
 
   if(!ST.me){
     $('#regForm').innerHTML=`<div class="form-col"><div class="card" style="text-align:center;padding:34px 20px">
@@ -851,6 +874,16 @@ function renderRegistrar(){
 
   const CAM='<svg viewBox="0 0 24 24"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H8l1.2-2h5.6L16 6h2.5A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z"/><circle cx="12" cy="12.5" r="3.6"/></svg>';
   const sesOpts=[...ST.ses].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+  const lk=(k,titulo,ajuda,rot,obrig)=>`
+    <div class="field">
+      <label class="${obrig?'req':''}">${titulo}</label>
+      ${ajuda?`<p class="meta" style="margin:-2px 0 7px">${ajuda}</p>`:''}
+      <div class="likert" data-lk="${k}">
+        <div class="anchors"><span>1 · ${esc(rot[0])}</span><span>5 · ${esc(rot[4])}</span></div>
+        <div class="opts">${[1,2,3,4,5].map(n=>`<button data-v="${n}" title="${esc(rot[n-1])}">${n}</button>`).join('')}</div>
+        <div class="sel meta">Toque em um número</div>
+      </div>
+    </div>`;
 
   $('#regForm').innerHTML=`<div class="form-col">
 
@@ -861,14 +894,14 @@ function renderRegistrar(){
       ${sesOpts.length?'':'<div class="warn" style="margin-top:10px">Nenhuma sessão cadastrada. Você pode registrar assim mesmo, mas o registro fica fora do cálculo de animais por quilômetro.</div>'}
     </div>`:''}
 
-    <div class="card" style="margin-bottom:16px">
+    <div class="card" style="margin-bottom:16px" id="cardFoto">
       <div class="step"><b>1</b><div><h3>Foto</h3><span>De longe já serve. Não se aproxime de animal desconhecido.</span></div></div>
       <label class="photobtn" for="fPhoto" id="photoLabel">${CAM}<span>Tirar foto ou escolher da galeria</span></label>
       <input type="file" accept="image/*" capture="environment" id="fPhoto" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
       <div id="fPrev" style="margin-top:12px"></div>
     </div>
 
-    <div class="card" style="margin-bottom:16px">
+    <div class="card" style="margin-bottom:16px" id="cardGeo">
       <div class="step"><b>2</b><div><h3>Onde</h3><span>Capturado automaticamente pelo GPS do aparelho.</span></div></div>
       <div class="geo"><span class="dot" id="geoDot"></span><span id="geoTxt">Buscando localização...</span></div>
       <div class="row" style="margin-top:10px">
@@ -891,39 +924,52 @@ function renderRegistrar(){
       </details>
     </div>
 
-    <div class="card" style="margin-bottom:16px">
-      <div class="step"><b>3</b><div><h3>O que você viu</h3><span>Três toques bastam. O resto é opcional.</span></div></div>
-
-      <div class="field"><label>Espécie</label>
+    <div class="card" style="margin-bottom:16px" id="cardId">
+      <div class="step"><b>3</b><div><h3>Quem é o animal</h3><span>Categorias, sem escala. Espécie e cor ajudam a reconhecer o mesmo animal depois.</span></div></div>
+      <div class="field"><label class="req">Espécie</label>
         <div class="bigchips" id="gSp">
           <button class="bigchip on" data-sp="Cão">Cão</button>
           <button class="bigchip" data-sp="Gato">Gato</button></div></div>
-
-      <div class="field"><label>Condição corporal aparente</label>
-        <div class="bigchips" id="gBcs">
-          <button class="bigchip warnsel" data-bcs="2">Muito magro</button>
-          <button class="bigchip" data-bcs="5">Parece saudável</button>
-          <button class="bigchip" data-bcs="8">Acima do peso</button></div></div>
-
-      <div class="field"><label>Como reagiu a você</label>
-        <div class="bigchips" id="gBeh">
-          <button class="bigchip" data-beh="Indiferente">Ignorou</button>
-          <button class="bigchip" data-beh="Aproximação amigável">Chegou perto</button>
-          <button class="bigchip" data-beh="Fuga">Fugiu</button>
-          <button class="bigchip" data-beh="Vigilante a distância">Ficou vigiando</button>
-          <button class="bigchip warnsel" data-beh="Agressivo">Rosnou ou avançou</button></div>
-        <input type="hidden" id="fBeh" value="Indiferente"></div>
-
-      <div class="field"><label>Quantos animais estavam juntos</label>
+      <div class="field"><label>Porte</label>
+        <div class="bigchips" id="gSize">
+          <button class="bigchip" data-k="size" data-v="Pequeno">Pequeno</button>
+          <button class="bigchip" data-k="size" data-v="Médio">Médio</button>
+          <button class="bigchip" data-k="size" data-v="Grande">Grande</button></div></div>
+      <div class="field"><label>Cor predominante</label>
+        <div class="chips" id="gColor">
+          ${['Caramelo','Preto','Branco','Marrom escuro','Cinza','Malhado','Tigrado','Tricolor','Amarelado'].map(c=>`<button class="chip" data-k="colorPattern" data-v="${c}">${c}</button>`).join('')}</div></div>
+      <div class="field" style="margin:0"><label>Quantos animais estavam juntos</label>
         <div class="bigchips" id="gGrp">
           ${[1,2,3,'4 ou mais'].map((n,i)=>`<button class="bigchip ${i?'':'on'}" data-grp="${i===3?5:n}">${n}</button>`).join('')}</div>
         <input type="hidden" id="fGroup" value="1"></div>
+    </div>
 
-      <div class="field"><label>Notou algum destes sinais? <span class="hint">opcional</span></label>
+    <div class="card" style="margin-bottom:16px" id="cardLik">
+      <div class="step"><b>4</b><div><h3>Como o animal está</h3><span>Cinco domínios independentes, cada um de 1 a 5.</span></div></div>
+      ${lk('corpo','Condição corporal','Avalie costelas, cintura e quadril vistos de lado.',
+        ['Ossos muito aparentes','Magro','Ideal','Acima do peso','Obeso'],true)}
+      ${lk('pelo','Pelagem e pele','Feridas, sarna, falhas de pelo, brilho.',
+        ['Feridas ou sarna extensa','Falhas e descamação','Regular','Boa','Pelo íntegro e brilhante'],true)}
+      ${lk('mob','Locomoção','Como o animal se movimenta.',
+        ['Não se locomove','Manca muito','Manca leve','Anda bem','Corre e salta sem dificuldade'],true)}
+      ${lk('vit','Vitalidade e alerta','Resposta ao ambiente e ao seu movimento.',
+        ['Apático, não reage','Pouco reativo','Reage devagar','Atento','Alerta e ativo'],true)}
+      ${lk('soc','Reação a você','Distância de fuga e postura.',
+        ['Agressivo, avançou','Rosnou ou ficou tenso','Fugiu ou evitou','Indiferente','Aproximou-se amigável'],true)}
+      ${lk('hum','Relação com pessoas do local','Opcional, preencha só se observou.',
+        ['É enxotado ou agredido','Tolerado com incômodo','Indiferença','Alguém oferece comida','Cuidado por moradores'],false)}
+      <div class="note" id="wellOut" style="display:none"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="step"><b>5</b><div><h3>Detalhes</h3><span>Opcional, mas é o que dá contexto ao registro.</span></div></div>
+      <div class="field"><label>Sinais clínicos visíveis</label>
         <div class="chips" id="fClin">${CLIN.map(c=>`<button class="chip" data-clin="${c}">${c}</button>`).join('')}</div></div>
-
-      <div class="field" style="margin:0"><label>Quer descrever algo? <span class="hint">opcional</span></label>
-        <textarea id="fNotes" placeholder="Cor, marcas, coleira, filhotes por perto, quem alimenta, há quanto tempo você vê esse animal"></textarea></div>
+      <div class="field"><label>Situação observada</label>
+        <div class="chips" id="gCtx">
+          ${['Com filhotes','Fêmea lactante','Coleira presente','Perto de lixo','Comendo restos','Comedouro comunitário','Dormindo na via','Risco de atropelamento','Em grupo com outros cães'].map(c=>`<button class="chip" data-ctx="${c}">${c}</button>`).join('')}</div></div>
+      <div class="field" style="margin:0"><label>Descrição livre</label>
+        <textarea id="fNotes" placeholder="Marcas que ajudam a reconhecer, quem cuida, há quanto tempo aparece no local, comportamento com outros animais"></textarea></div>
     </div>
 
     ${eq?`<details class="adv">
@@ -938,7 +984,6 @@ function renderRegistrar(){
         <div class="grid2">
           <div class="field"><label>Sexo</label><select id="fSex"><option>Não identificado</option><option>Macho</option><option>Fêmea</option></select></div>
           <div class="field"><label>Classe etária</label><select id="fAge"><option>Adulto</option><option>Filhote</option><option>Jovem</option><option>Idoso aparente</option></select></div>
-          <div class="field"><label>Porte</label><select id="fSize"><option>Médio</option><option>Pequeno</option><option>Grande</option></select></div>
           <div class="field"><label>Pelagem</label><select id="fCoat"><option>Curta</option><option>Média</option><option>Longa</option><option>Sem pelo em áreas</option></select></div>
           <div class="field"><label>Coleira</label><select id="fCollar"><option>Ausente</option><option>Presente sem identificação</option><option>Presente com identificação</option></select></div>
           <div class="field"><label>Castração aparente</label><select id="fNeut"><option>Não identificado</option><option>Sim</option><option>Não</option></select></div>
@@ -948,40 +993,83 @@ function renderRegistrar(){
             <option>Não observada</option><option>Alimentado por morador</option><option>Lixo doméstico</option><option>Restos de comércio</option><option>Comedouro comunitário</option></select></div>
           <div class="field"><label>Abrigo</label><select id="fShelter">
             <option>Nenhum</option><option>Marquise ou calçada</option><option>Terreno baldio</option><option>Quintal aberto</option><option>Sob veículo</option></select></div>
-          <div class="field"><label>Interação com pessoas</label><select id="fPeople">
-            <option>Nenhuma</option><option>Recebe carinho</option><option>É enxotado</option><option>Interage com crianças</option></select></div>
-          <div class="field"><label>Sociabilidade</label><select id="fSoc">
-            <option>Não avaliada</option><option>Permite aproximação</option><option>Permite toque</option><option>Não permite aproximação</option></select></div>
+          <div class="field"><label>Escore corporal preciso (1 a 9)</label><select id="fBcs9">
+            <option value="">Usar a escala rápida</option>${[1,2,3,4,5,6,7,8,9].map(n=>`<option value="${n}">${n}</option>`).join('')}</select></div>
+          <div class="field"><label>Gestação aparente</label><select id="fPreg"><option value="">Não</option><option value="1">Sim</option></select></div>
         </div>
-        <div class="field"><label>Sinais reprodutivos</label><div class="row">
-          <label style="font-weight:500"><input type="checkbox" id="fLact"> fêmea lactante</label>
-          <label style="font-weight:500"><input type="checkbox" id="fPreg"> gestação aparente</label>
-          <label style="font-weight:500"><input type="checkbox" id="fPups"> com filhotes</label></div></div>
-        <div class="field" style="margin:0"><label>Escore de condição corporal preciso <span class="hint">substitui a escolha rápida acima</span></label>
-          <div class="scale" id="fBcs">${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-bcs="${n}">${n}</button>`).join('')}</div></div>
       </div>
     </details>`:''}
 
-    <div class="savebar"><button class="btn pri" id="bSave">${eq?'Gravar ficha':'Enviar registro'}</button></div>
+    <div class="savebar">
+      <div class="meta" id="faltando" style="margin-bottom:8px"></div>
+      <button class="btn pri" id="bSave">${eq?'Gravar ficha':'Enviar registro'}</button>
+    </div>
   </div>`;
   wireForm();
 }
+
+const LKROT={
+  corpo:['Ossos muito aparentes','Magro','Ideal','Acima do peso','Obeso'],
+  pelo:['Feridas ou sarna extensa','Falhas e descamação','Regular','Boa','Pelo íntegro e brilhante'],
+  mob:['Não se locomove','Manca muito','Manca leve','Anda bem','Corre e salta sem dificuldade'],
+  vit:['Apático, não reage','Pouco reativo','Reage devagar','Atento','Alerta e ativo'],
+  soc:['Agressivo, avançou','Rosnou ou ficou tenso','Fugiu ou evitou','Indiferente','Aproximou-se amigável'],
+  hum:['É enxotado ou agredido','Tolerado com incômodo','Indiferença','Alguém oferece comida','Cuidado por moradores']
+};
+const BCS9={1:2,2:3,3:5,4:7,5:9};
+const BEH5={1:'Agressivo',2:'Vigilante a distância',3:'Fuga',4:'Indiferente',5:'Aproximação amigável'};
+function adequacaoCorporal(v){ return v?5-2*Math.abs(v-3):null; }
+function indiceBemEstar(o){
+  const v=[adequacaoCorporal(o.corpo),o.pelo,o.mob,o.vit].filter(x=>x);
+  return v.length>=3? v.reduce((a,b)=>a+b,0)/v.length : null;
+}
 function wireForm(){
   const groupPick=(sel,fn)=>$$(sel).forEach(b=>b.onclick=()=>{
-    [...b.parentElement.children].forEach(c=>c.classList.remove('on'));b.classList.add('on');fn(b);});
+    [...b.parentElement.children].forEach(c=>c.classList.remove('on'));b.classList.add('on');fn(b);updateFalta();});
   groupPick('#gSp [data-sp]', b=>_sp=b.dataset.sp);
-  groupPick('#gBcs [data-bcs]', b=>_bcs=+b.dataset.bcs);
-  groupPick('#gBeh [data-beh]', b=>$('#fBeh').value=b.dataset.beh);
+  groupPick('#gSize [data-k]', b=>_extra.size=b.dataset.v);
   groupPick('#gGrp [data-grp]', b=>$('#fGroup').value=b.dataset.grp);
-  groupPick('#fBcs [data-bcs]', b=>{_bcs=+b.dataset.bcs;
-    $$('#gBcs [data-bcs]').forEach(c=>c.classList.remove('on'));});
+  $$('#gColor [data-k]').forEach(b=>b.onclick=()=>{
+    const on=b.classList.contains('on');
+    $$('#gColor [data-k]').forEach(c=>c.classList.remove('on'));
+    if(!on){b.classList.add('on');_extra.colorPattern=b.dataset.v;} else _extra.colorPattern=null;});
+  $$('.likert').forEach(box=>{
+    const k=box.dataset.lk;
+    box.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+      box.querySelectorAll('button').forEach(c=>c.className='');
+      const v=+b.dataset.v; b.className='on lk'+v; _lk[k]=v;
+      const sel=box.querySelector('.sel');
+      sel.textContent=v+' · '+LKROT[k][v-1]; sel.classList.remove('meta');
+      updateFalta();
+    });
+  });
   $$('[data-clin]').forEach(b=>b.onclick=()=>{b.classList.toggle('on');
     const c=b.dataset.clin;_clin.has(c)?_clin.delete(c):_clin.add(c);});
+  $$('[data-ctx]').forEach(b=>b.onclick=()=>{b.classList.toggle('on');
+    _extra.ctx=$$('[data-ctx].on').map(x=>x.dataset.ctx);});
   $('#fPhoto').onchange=e=>loadPhoto(e.target);
   $('#bGPS').onclick=askGeo;
-  ['fLat','fLon'].forEach(id=>$('#'+id).addEventListener('input',()=>{_geo=null;checkGeo();}));
+  ['fLat','fLon'].forEach(id=>$('#'+id).addEventListener('input',()=>{_geo=null;checkGeo();updateFalta();}));
   $('#bSave').onclick=saveRecord;
-  askGeo();
+  askGeo(); updateFalta();
+}
+function updateFalta(){
+  const falta=[];
+  ['corpo','pelo','mob','vit','soc'].forEach(k=>{ if(!_lk[k]) falta.push(k); });
+  const semGeo=!(+$('#fLat').value&&+$('#fLon').value);
+  const cl=$('#cardLik'), cg=$('#cardGeo');
+  if(cl) cl.classList.toggle('pending',falta.length>0);
+  if(cg) cg.classList.toggle('pending',semGeo);
+  const w=indiceBemEstar(_lk), wo=$('#wellOut');
+  if(wo){
+    if(w){ wo.style.display='block';
+      wo.innerHTML=`<b>Índice de bem estar aparente: ${w.toFixed(2)} de 5.</b> ${w<2.5?'Situação crítica, sinalize à equipe.':w<3.5?'Comprometido, merece acompanhamento.':'Animal em condição aceitável no momento da observação.'}`;
+    } else wo.style.display='none';
+  }
+  const f=$('#faltando');
+  if(f) f.innerHTML = falta.length||semGeo
+    ? '<span style="color:var(--caramelo-3)">Falta preencher: '+[...(semGeo?['localização']:[]),...falta.map(k=>({corpo:'condição corporal',pelo:'pelagem',mob:'locomoção',vit:'vitalidade',soc:'reação a você'}[k]))].join(', ')+'</span>'
+    : '<span style="color:var(--oliva)">Tudo pronto para enviar</span>';
 }
 function setGeoUI(state,txt){
   const d=$('#geoDot'),t=$('#geoTxt'); if(!d)return;
@@ -1002,7 +1090,7 @@ function checkGeo(){
   const el=$('#regCheck'); if(!el) return;
   const lat=+$('#fLat').value,lon=+$('#fLon').value;
   el.innerHTML = (lat&&lon&&(Math.abs(lat+16.07)>.6||Math.abs(lon+57.68)>.6))
-    ? '<span style="color:var(--ocre)">Coordenada fora da região de Cáceres. Confira os sinais de menos.</span>' : '';
+    ? '<span style="color:var(--dourado)">Coordenada fora da região de Cáceres. Confira os sinais de menos.</span>' : '';
 }
 function loadPhoto(inp){
   const f=inp.files[0];if(!f)return;
@@ -1021,25 +1109,36 @@ function loadPhoto(inp){
 }
 async function saveRecord(){
   if(!ST.me)return login();
-  const eq=isEquipe(),btn=$('#bSave'),label=eq?'Gravar ficha de campo':'Enviar registro';
-  const V=id=>{const el=$('#'+id);return el?el.value:null;},C=id=>{const el=$('#'+id);return el?el.checked:false;};
+  const eq=isEquipe(),btn=$('#bSave'),label=eq?'Gravar ficha':'Enviar registro';
+  const V=id=>{const el=$('#'+id);return el?el.value:null;};
+  const falta=['corpo','pelo','mob','vit','soc'].filter(k=>!_lk[k]);
+  if(falta.length){ updateFalta(); $('#cardLik').scrollIntoView({behavior:'smooth',block:'center'});
+    return toast('Preencha as cinco escalas obrigatórias.'); }
   const lat=+V('fLat')||null,lon=+V('fLon')||null;
   if((!lat||!lon)&&!confirm('Sem coordenada este registro não entra no mapa nem nas análises espaciais. Gravar mesmo assim?'))return;
   btn.disabled=true;btn.textContent='Salvando...';
+  const bcs9=eq&&V('fBcs9')?+V('fBcs9'):BCS9[_lk.corpo];
   const r={
     tipo: eq?'protocolo':'cidadao',
     status: eq?'validado':'pendente',
     uid: ST.me.uid, autor: ST.me.nome,
     species:_sp, datetime:new Date().toISOString(),
     lat,lon,acc:_geo?_geo.acc:null, bairro:(V('fBairro')||'').trim(), env:V('fEnv'),
-    bcs:_bcs, clinical:[..._clin], behavior:V('fBeh'), groupSize:+V('fGroup')||1,
+    size:_extra.size||null, colorPattern:_extra.colorPattern||null,
+    lkCorpo:_lk.corpo, lkPelo:_lk.pelo, lkMob:_lk.mob, lkVit:_lk.vit, lkSoc:_lk.soc, lkHum:_lk.hum||null,
+    bemEstar:+indiceBemEstar(_lk).toFixed(2),
+    bcs:bcs9, behavior:BEH5[_lk.soc],
+    contexto:_extra.ctx||[], clinical:[..._clin],
+    withPups:(_extra.ctx||[]).includes('Com filhotes'),
+    lactating:(_extra.ctx||[]).includes('Fêmea lactante'),
+    groupSize:+V('fGroup')||1,
     notes:(V('fNotes')||'').trim()
   };
   if(eq) Object.assign(r,{
     sessionId:V('fSes')||null, code:(V('fCode')||'').trim().toUpperCase()||null, resight:V('fResight'),
-    marks:(V('fMarks')||'').trim(), sex:V('fSex'), ageClass:V('fAge'), size:V('fSize'), coat:V('fCoat'),
-    collar:V('fCollar'), neutered:V('fNeut'), lactating:C('fLact'), pregnant:C('fPreg'), withPups:C('fPups'),
-    ownership:V('fOwn'), food:V('fFood'), shelter:V('fShelter'), people:V('fPeople'), sociability:V('fSoc')
+    marks:(V('fMarks')||'').trim(), sex:V('fSex'), ageClass:V('fAge'), coat:V('fCoat'),
+    collar:V('fCollar'), neutered:V('fNeut'), ownership:V('fOwn'), food:V('fFood'), shelter:V('fShelter'),
+    pregnant: V('fPreg')==='1'
   });
   try{
     const ref=await addDoc(collection(db,'avistamentos'),r);
@@ -1128,12 +1227,12 @@ function renderDados(){
   $('#dadosBox').innerHTML=r.length?`
     <div class="card" style="padding:0;overflow:hidden">
       <div class="tablewrap" style="border:0;border-radius:0;max-height:64vh"><table><thead><tr>
-        <th>Origem</th><th>Código</th><th>Espécie</th><th>Data</th><th>Bairro</th><th>Sexo</th><th class="num">BCS</th>
+        <th>Origem</th><th>Código</th><th>Espécie</th><th>Data</th><th>Bairro</th><th class="num">Bem estar</th><th class="num">Corpo</th>
         <th>Comportamento</th><th class="num">Lat</th><th class="num">Lon</th><th>Sessão</th><th></th></tr></thead><tbody>
         ${r.map(x=>{const s=ST.ses.find(y=>y.id===x.sessionId);
           return `<tr><td><span class="tag ${x.tipo==='cidadao'?'x':'v'}">${esc(x.tipo)}</span></td>
           <td>${esc(x.code||'—')}</td><td>${esc(x.species||'')}</td><td>${dtBR(x.datetime)}</td>
-          <td>${esc(x.bairro||'—')}</td><td>${esc(x.sex||'—')}</td><td class="num">${x.bcs||'—'}</td>
+          <td>${esc(x.bairro||'—')}</td><td class="num">${x.bemEstar?fmt(x.bemEstar):'—'}</td><td class="num">${x.lkCorpo||'—'}</td>
           <td>${esc(x.behavior||'—')}</td><td class="num">${x.lat?x.lat.toFixed(5):'—'}</td>
           <td class="num">${x.lon?x.lon.toFixed(5):'—'}</td><td>${esc(s?s.name:'—')}</td>
           <td><button class="btn sm" data-open="${x.id}">Ver</button> <button class="btn sm danger" data-delr="${x.id}">Excluir</button></td></tr>`;}).join('')}
@@ -1148,7 +1247,7 @@ async function delRecord(id){
     ST.recs=ST.recs.filter(r=>r.id!==id); renderDados(); toast('Registro excluído.'); }
   catch(e){ toast('Falha ao excluir.'); }
 }
-const COLS=['id','tipo','status','code','resight','species','datetime','sessionId','bairro','env','lat','lon','acc','sex','ageClass','size','coat','collar','neutered','lactating','pregnant','withPups','bcs','clinical','behavior','groupSize','ownership','food','shelter','people','sociability','marks','notes','autor'];
+const COLS=['id','tipo','status','code','resight','species','datetime','sessionId','bairro','env','lat','lon','acc','sex','ageClass','size','colorPattern','coat','collar','neutered','lactating','pregnant','withPups','lkCorpo','lkPelo','lkMob','lkVit','lkSoc','lkHum','bemEstar','bcs','clinical','contexto','behavior','groupSize','ownership','food','shelter','marks','notes','autor'];
 function exportCSV(what){
   const cols=what==='recs'?COLS:['id','name','date','bairro','start','end','distanceKm','method','weather','lat','lon','notes','by'];
   const rows=what==='recs'?ST.recs:ST.ses;
@@ -1162,9 +1261,11 @@ $('#expRec').onclick=()=>exportCSV('recs');
 $('#expSes').onclick=()=>exportCSV('ses');
 $('#expJson').onclick=()=>dl(new Blob([JSON.stringify({avistamentos:ST.recs,sessoes:ST.ses,interacoes:ST.inter,exportadoEm:new Date().toISOString()},null,1)],{type:'application/json'}),'patas_caceres_backup_'+new Date().toISOString().slice(0,10)+'.json');
 
+const LKVARS=[['lkCorpo','Condição corporal','corpo'],['lkPelo','Pelagem e pele','pelo'],
+  ['lkMob','Locomoção','mob'],['lkVit','Vitalidade','vit'],['lkSoc','Reação ao observador','soc'],['lkHum','Relação com pessoas','hum']];
 const CATV=[['species','Espécie'],['sex','Sexo'],['ageClass','Classe etária'],['bairro','Bairro'],
   ['ownership','Vínculo aparente'],['behavior','Reação ao observador'],['env','Tipo de ambiente'],
-  ['food','Fonte de alimento'],['shelter','Abrigo']];
+  ['food','Fonte de alimento'],['shelter','Abrigo'],['colorPattern','Cor predominante'],['size','Porte']];
 function renderAnalises(){
   const incCid=$('#anCid').checked;
   const R=incCid?srcSet('validado'):srcSet('protocolo');
@@ -1172,7 +1273,7 @@ function renderAnalises(){
   if(!R.length){$('#analises').innerHTML='<div class="empty"><b>Sem dados para analisar</b>As análises usam somente registros reais gravados no banco.</div>';return;}
   const km=S.reduce((s,x)=>s+(+x.distanceKm||0),0);
   const rates=S.filter(s=>s.distanceKm>0).map(s=>R.filter(r=>r.sessionId===s.id).length/s.distanceKm);
-  const bcs=R.map(r=>r.bcs).filter(Boolean);
+  const be=R.map(r=>r.bemEstar).filter(Boolean);
   const codes=[...new Set(R.filter(r=>r.code).map(r=>r.code))];
   const clin=R.filter(r=>(r.clinical||[]).length).length;
   const cc={};R.forEach(r=>(r.clinical||[]).forEach(c=>cc[c]=(cc[c]||0)+1));
@@ -1198,14 +1299,22 @@ function renderAnalises(){
     <div class="warn" style="margin-top:12px">Sexo e castração aparente têm alta taxa de não identificação em observação a distância. Reporte a proporção de indeterminados e não a exclua silenciosamente do denominador.</div>
   </div>
   <div class="card">
-    <h3>3. Condição corporal e bem estar</h3><p class="sub">Escore de 1 a 9 e prevalência de sinais clínicos</p>
+    <h3>3. Bem estar por domínios</h3><p class="sub">Cinco escalas ordinais de 1 a 5 avaliadas de forma independente</p>
+    <div class="statbox" style="margin-bottom:16px">
+      <div class="stat"><b>${be.length?fmt(mean(be))+' ± '+fmt(sd(be)):'—'}</b><span>Índice de bem estar</span></div>
+      <div class="stat"><b>${be.length?fmt(100*be.filter(x=>x<3).length/be.length)+'%':'—'}</b><span>Abaixo de 3, comprometido</span></div>
+      <div class="stat"><b>${fmt(100*clin/R.length)}%</b><span>Com algum sinal clínico</span></div>
+      <div class="stat"><b>${R.filter(r=>r.lactating||r.pregnant||r.withPups).length}</b><span>Lactantes, gestantes ou com cria</span></div>
+    </div>
     <div class="grid2">
-      <div>${histChart(bcs,1,9,{xlab:'Escore de condição corporal'})}
-        ${bcs.length?`<p class="meta">n = ${bcs.length} · mediana ${fmt(median(bcs))} · média ${fmt(mean(bcs))} ± ${fmt(sd(bcs))} · abaixo de 4: ${fmt(100*bcs.filter(b=>b<4).length/bcs.length)}%</p>`:''}</div>
-      <div><div class="statbox" style="margin-bottom:12px">
-        <div class="stat"><b>${fmt(100*clin/R.length)}%</b><span>Com algum sinal clínico</span></div>
-        <div class="stat"><b>${R.filter(r=>r.lactating||r.pregnant).length}</b><span>Lactantes ou gestantes</span></div></div>
-        ${Object.keys(cc).length?barChart(Object.entries(cc).sort((a,b)=>b[1]-a[1]),{color:'#C2423D',lw:180}):'<div class="empty">Nenhum sinal clínico registrado.</div>'}</div></div>
+      ${LKVARS.map(v=>{const vals=R.map(r=>r[v[0]]).filter(Boolean);
+        return `<div><p style="font-weight:600;font-size:14px;margin:0 0 2px">${v[1]}</p>
+        <p class="meta" style="margin:0 0 4px">1 = ${esc(LKROT[v[2]][0])} · 5 = ${esc(LKROT[v[2]][4])}</p>
+        ${histChart(vals,1,5,{xlab:'',mode:v[2]==='corpo'?'bcs':'ord'})}
+        <p class="meta">n = ${vals.length}${vals.length?' · mediana '+fmt(median(vals))+' · média '+fmt(mean(vals))+' ± '+fmt(sd(vals)):''}</p></div>`;}).join('')}
+    </div>
+    ${Object.keys(cc).length?'<div style="margin-top:12px">'+barChart(Object.entries(cc).sort((a,b)=>b[1]-a[1]),{color:'#B23A2E',lw:180})+'</div>':''}
+    <div class="warn" style="margin-top:12px">A condição corporal não é monotônica: 1 e 5 são desfavoráveis e 3 é o ótimo. No índice composto ela entra como adequação, calculada por 5 menos duas vezes o desvio absoluto em relação a 3. Descreva isso no método, senão a média do índice fica sem interpretação.</div>
   </div>
   <div class="card">
     <h3>4. Comportamento e recursos</h3><p class="sub">Reação ao observador e fonte de alimento</p>
@@ -1271,7 +1380,7 @@ function gaps(R,S){
   if(S.length&&S.filter(s=>s.distanceKm>0).length<S.length)g.push('Há sessões sem distância percorrida informada.');
   const nc=R.filter(r=>!r.code).length; if(nc)g.push(nc+' registro(s) sem código individual, o que impede o cálculo de abundância.');
   const ng=R.filter(r=>!r.lat).length; if(ng)g.push(ng+' registro(s) sem coordenada, excluídos das análises espaciais.');
-  const nb=R.filter(r=>!r.bcs).length; if(nb)g.push(nb+' registro(s) sem escore de condição corporal.');
+  const nb=R.filter(r=>!r.bemEstar).length; if(nb)g.push(nb+' registro(s) sem as escalas de bem estar completas.');
   const nbr=R.filter(r=>!r.bairro).length; if(nbr)g.push(nbr+' registro(s) sem bairro, o que impede estratificação por setor.');
   if(R.length<60)g.push('Com '+R.length+' avistamentos, testes por bairro terão células pequenas. Planeje ao menos 100 registros antes de estratificar.');
   const set=new Set(S.map(s=>s.bairro)).size;
