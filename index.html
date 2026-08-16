@@ -15,7 +15,7 @@
   --disp:'Archivo','Arial Narrow',sans-serif; --body:'IBM Plex Sans',system-ui,-apple-system,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0}
+html,body{margin:0;padding:0;overflow-x:hidden}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
 h1,h2,h3,h4{font-family:var(--disp);margin:0;letter-spacing:-.01em;line-height:1.15}
 button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
@@ -48,7 +48,7 @@ nav.tabs::-webkit-scrollbar{display:none}
 .userchip{display:flex;align-items:center;gap:8px;background:var(--verde-2);color:#0E4C3B;border-radius:999px;padding:5px 7px 5px 12px;font-size:13px;font-weight:600}
 .userchip img{width:26px;height:26px;border-radius:50%}
 .hero{padding:34px 0 26px;border-bottom:1px solid var(--line)}
-.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:38px;align-items:center}
+.hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:34px;align-items:center}
 .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--verde);font-weight:600}
 .hero h1{font-size:clamp(30px,5vw,50px);font-weight:800;margin:10px 0 12px}
 .hero h1 em{font-style:normal;color:var(--verde)}
@@ -67,8 +67,8 @@ section.view.on{display:block}
 .card+.card{margin-top:16px}
 .card h3{font-size:16px;margin-bottom:4px}
 .card .sub{color:var(--ink-2);font-size:13px;margin:0 0 14px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px}
 .note{background:var(--verde-2);border-left:3px solid var(--verde);border-radius:0 10px 10px 0;padding:11px 14px;font-size:13.5px;color:#12503E}
 .warn{background:#FDF3E3;border-left:3px solid var(--ocre);border-radius:0 10px 10px 0;padding:11px 14px;font-size:13.5px;color:#6C4D0C}
 .bad{background:#FBE9E8;border-left:3px solid var(--rubi);border-radius:0 10px 10px 0;padding:11px 14px;font-size:13.5px;color:#8E2B27}
@@ -135,7 +135,30 @@ footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--ink-2);f
 .quiz-opt.no{border-color:var(--rubi);background:#FBE9E8}
 .offline{background:var(--ocre);color:#3D2B04;text-align:center;font-size:13px;font-weight:600;padding:6px;display:none}
 .offline.on{display:block}
-@media (max-width:860px){.hero-grid,.grid2,.grid3{grid-template-columns:1fr}.brand-s{display:none}}
+/* formulário rápido */
+.form-col{max-width:660px;margin:0 auto}
+.step{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.step b{width:26px;height:26px;border-radius:50%;background:var(--verde);color:#fff;display:grid;place-items:center;font-family:var(--mono);font-size:13px;flex:none}
+.step h3{font-size:17px}
+.step span{font-size:12.5px;color:var(--ink-2)}
+.photobtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100%;min-height:160px;border:2px dashed var(--line);border-radius:14px;background:var(--soft);cursor:pointer;font-weight:600;color:var(--ink-2);text-align:center;padding:16px}
+.photobtn svg{width:36px;height:36px;stroke:var(--verde);fill:none;stroke-width:1.7}
+.bigchips{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.bigchip{min-height:54px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-weight:600;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 10px;line-height:1.25}
+.bigchip.on{background:var(--verde);border-color:var(--verde);color:#fff}
+.bigchip.on.warnsel{background:var(--rubi);border-color:var(--rubi)}
+.geo{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--ocre);flex:none}
+.dot.ok{background:var(--verde)} .dot.no{background:var(--rubi)}
+details.adv{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:#fff}
+details.adv summary{cursor:pointer;font-family:var(--disp);font-weight:700;font-size:16px;list-style:none}
+details.adv summary::-webkit-details-marker{display:none}
+details.adv summary::after{content:' ▾';color:var(--ink-2)}
+details.adv[open] summary::after{content:' ▴'}
+details.adv .inner{padding-top:14px}
+.savebar{position:sticky;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px 0 16px;margin-top:18px;z-index:30}
+.savebar .btn{width:100%;min-height:54px;font-size:16px}
+@media (max-width:860px){.brand-s{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -405,7 +428,7 @@ async function boot(){
   catch(e){ console.error(e); return bootFail('Não foi possível ler o banco','Verifique se o Firestore foi criado e se as regras de segurança foram publicadas. Nenhum dado foi exibido para evitar informação incorreta.'); }
   ST.ready=true;
   $('#boot').style.display='none';
-  renderTabs(); renderAuth(); go(location.hash.replace('#','')||'inicio');
+  renderTabs(); renderAuth(); go(location.hash.replace('#','')||'registrar');
 }
 
 async function loadAll(){
@@ -438,8 +461,8 @@ async function login(){
 const isEquipe=()=>ST.me&&ST.me.papel==='pesquisador';
 
 const TABS=[
-  {id:'inicio',t:'Início'},{id:'mapa',t:'Mapa de calor'},{id:'galeria',t:'Animais'},
-  {id:'registrar',t:'Registrar',auth:1},{id:'educacao',t:'Educação'},
+  {id:'registrar',t:'＋ Registrar'},{id:'mapa',t:'Mapa de calor'},{id:'galeria',t:'Animais'},
+  {id:'inicio',t:'Sobre'},{id:'educacao',t:'Educação'},
   {id:'validacao',t:'Validação',eq:1},{id:'sessoes',t:'Sessões',eq:1},
   {id:'dados',t:'Dados',eq:1},{id:'analises',t:'Análises',eq:1},{id:'protocolo',t:'Protocolo',eq:1}
 ];
@@ -811,77 +834,107 @@ let _geo=null,_photo=null,_clin=new Set(),_bcs=null,_sp='Cão';
 function renderRegistrar(){
   _geo=null;_photo=null;_clin=new Set();_bcs=null;_sp='Cão';
   const eq=isEquipe();
-  $('#regTitle').textContent = eq? 'Nova ficha de campo':'Registrar um animal que você encontrou';
-  $('#regLede').textContent = eq
-    ? 'Ficha completa de protocolo. Vincule a uma sessão de amostragem para que o registro entre no cálculo de taxa de encontro.'
-    : 'Seu registro entra como pendente e passa por conferência da equipe. Ele ajuda a localizar pontos e ninhadas que os transectos não alcançam.';
+  $('#regTitle').textContent = 'Registrar um animal';
+  $('#regLede').textContent = !ST.me
+    ? 'Entre com sua conta Google para enviar. Leva menos de um minuto: foto, localização e três toques.'
+    : (eq ? 'Foto, local e três toques. A ficha completa de protocolo fica no fim, quando você tiver tempo.'
+          : 'Foto, local e três toques. A equipe confere o registro depois.');
 
-  const common=`
-  <div class="card">
-    <h3>Localização</h3><p class="sub">Sem coordenada o registro não aparece no mapa</p>
-    <div class="row" style="margin-bottom:12px"><button class="btn pri" id="bGPS">Capturar GPS</button><span class="meta" id="fGeo">sem coordenada</span></div>
-    <div class="grid2">
-      <div class="field"><label>Latitude</label><input type="number" id="fLat" step="0.000001" placeholder="-16.0708"></div>
-      <div class="field"><label>Longitude</label><input type="number" id="fLon" step="0.000001" placeholder="-57.6811"></div>
+  if(!ST.me){
+    $('#regForm').innerHTML=`<div class="form-col"><div class="card" style="text-align:center;padding:34px 20px">
+      <h3 style="font-size:20px;margin-bottom:8px">Entre para registrar</h3>
+      <p class="sub" style="margin-bottom:18px">Sua conta Google serve só para identificar quem enviou e evitar registros falsos.</p>
+      <button class="btn pri gbtn" id="bLoginReg" style="min-height:52px;font-size:16px">${GLOGO} Entrar com Google</button>
+    </div></div>`;
+    $('#bLoginReg').onclick=login; return;
+  }
+
+  const CAM='<svg viewBox="0 0 24 24"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H8l1.2-2h5.6L16 6h2.5A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z"/><circle cx="12" cy="12.5" r="3.6"/></svg>';
+  const sesOpts=[...ST.ses].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+
+  $('#regForm').innerHTML=`<div class="form-col">
+
+    ${eq?`<div class="card" style="margin-bottom:16px">
+      <div class="field" style="margin:0"><label>Sessão de amostragem <span class="hint">define o esforço deste registro</span></label>
+        <select id="fSes"><option value="">Sem sessão vinculada</option>
+        ${sesOpts.map(s=>`<option value="${s.id}">${esc(s.name)} · ${String(s.date).split('-').reverse().join('/')}</option>`).join('')}</select></div>
+      ${sesOpts.length?'':'<div class="warn" style="margin-top:10px">Nenhuma sessão cadastrada. Você pode registrar assim mesmo, mas o registro fica fora do cálculo de animais por quilômetro.</div>'}
+    </div>`:''}
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="step"><b>1</b><div><h3>Foto</h3><span>De longe já serve. Não se aproxime de animal desconhecido.</span></div></div>
+      <label class="photobtn" for="fPhoto" id="photoLabel">${CAM}<span>Tirar foto ou escolher da galeria</span></label>
+      <input type="file" accept="image/*" capture="environment" id="fPhoto" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
+      <div id="fPrev" style="margin-top:12px"></div>
     </div>
-    <div class="field"><label>Bairro</label><input type="text" id="fBairro" placeholder="Cavalhada, Centro, Massa Barro..."></div>
-    <div class="field"><label>Tipo de ambiente</label><select id="fEnv">
-      <option>Via residencial</option><option>Via comercial</option><option>Praça ou área verde</option><option>Entorno de mercado ou feira</option>
-      <option>Entorno de escola</option><option>Margem de córrego ou rio</option><option>Área de descarte de lixo</option><option>Terreno baldio</option></select></div>
-    <div id="regCheck" class="meta"></div>
-  </div>
-  <div class="card">
-    <h3>Fotografia</h3><p class="sub">De preferência o perfil lateral, com o corpo inteiro visível</p>
-    <input type="file" accept="image/*" capture="environment" id="fPhoto">
-    <div id="fPrev" style="margin-top:12px"></div>
-    <div class="note" style="margin-top:12px">A imagem é reduzida para 800 px e comprimida antes de subir, para caber no limite de 1 MB por documento do Firestore.</div>
-  </div>`;
 
-  if(!eq){
-    $('#regForm').innerHTML=`<div class="grid2">
-      <div class="card">
-        <h3>O animal</h3><p class="sub">Responda só o que conseguir observar com segurança</p>
-        <div class="field"><label>Espécie</label><div class="chips" id="fSp">
-          ${['Cão','Gato'].map((x,i)=>`<button class="chip ${i?'':'on'}" data-sp="${x}">${x}</button>`).join('')}</div></div>
-        <div class="field"><label>Como ele reagiu a você</label><select id="fBeh">
-          <option>Indiferente</option><option>Aproximação amigável</option><option>Fuga</option><option>Vigilante a distância</option><option>Agressivo</option></select></div>
-        <div class="field"><label>Quantos animais estavam juntos</label><input type="number" id="fGroup" min="1" value="1"></div>
-        <div class="field"><label>Condição aparente</label>
-          <div class="chips" id="fCond">
-            <button class="chip" data-bcs="2">Muito magro</button>
-            <button class="chip" data-bcs="5">Aparentemente saudável</button>
-            <button class="chip" data-bcs="8">Acima do peso</button></div></div>
-        <div class="field"><label>Notou algum destes sinais?</label>
-          <div class="chips" id="fClin">${CLIN.map(c=>`<button class="chip" data-clin="${c}">${c}</button>`).join('')}</div></div>
-        <div class="field"><label>Descreva o que você viu</label>
-          <textarea id="fNotes" placeholder="Cor, marcas, se tem coleira, se alguém alimenta, se há filhotes por perto, há quanto tempo você vê esse animal"></textarea></div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="step"><b>2</b><div><h3>Onde</h3><span>Capturado automaticamente pelo GPS do aparelho.</span></div></div>
+      <div class="geo"><span class="dot" id="geoDot"></span><span id="geoTxt">Buscando localização...</span></div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn sm" id="bGPS">Tentar de novo</button>
+        <span class="meta" id="regCheck"></span>
       </div>
-      ${common}
-      <div class="card"><h3>Enviar</h3><p class="sub">Seu nome fica visível na ficha</p>
-        <div class="note" style="margin-bottom:12px">Não se aproxime de animal desconhecido para conseguir a foto. Uma imagem de longe com a localização certa vale mais do que uma mordida.</div>
-        <button class="btn pri" id="bSave">Enviar registro</button></div>
-    </div>`;
-  } else {
-    const ses=[...ST.ses].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
-    $('#regForm').innerHTML=`
-    ${ses.length?'':'<div class="warn" style="margin-bottom:16px"><b>Nenhuma sessão cadastrada.</b> Registros sem sessão não entram no cálculo de taxa de encontro. Cadastre a sessão primeiro.</div>'}
-    <div class="grid2">
-      <div class="card">
-        <h3>Identificação</h3><p class="sub">Sessão, espécie e código individual</p>
-        <div class="field"><label>Sessão de amostragem</label><select id="fSes">
-          <option value="">Sem sessão vinculada</option>${ses.map(s=>`<option value="${s.id}">${esc(s.name)} · ${String(s.date).split('-').reverse().join('/')}</option>`).join('')}</select></div>
-        <div class="field"><label>Espécie</label><div class="chips" id="fSp">
-          ${['Cão','Gato'].map((x,i)=>`<button class="chip ${i?'':'on'}" data-sp="${x}">${x}</button>`).join('')}</div></div>
+      <details class="adv" style="margin-top:12px;border:0;padding:0">
+        <summary style="font-size:14px;font-family:var(--body);color:var(--ink-2)">Informar manualmente</summary>
+        <div class="inner">
+          <div class="grid2">
+            <div class="field"><label>Latitude</label><input type="number" id="fLat" step="0.000001" placeholder="-16.0708"></div>
+            <div class="field"><label>Longitude</label><input type="number" id="fLon" step="0.000001" placeholder="-57.6811"></div>
+          </div>
+          <div class="field"><label>Bairro</label><input type="text" id="fBairro" placeholder="Cavalhada, Centro, Massa Barro..."></div>
+          <div class="field" style="margin:0"><label>Tipo de ambiente</label><select id="fEnv">
+            <option>Via residencial</option><option>Via comercial</option><option>Praça ou área verde</option>
+            <option>Entorno de mercado ou feira</option><option>Entorno de escola</option>
+            <option>Margem de córrego ou rio</option><option>Área de descarte de lixo</option><option>Terreno baldio</option></select></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="step"><b>3</b><div><h3>O que você viu</h3><span>Três toques bastam. O resto é opcional.</span></div></div>
+
+      <div class="field"><label>Espécie</label>
+        <div class="bigchips" id="gSp">
+          <button class="bigchip on" data-sp="Cão">Cão</button>
+          <button class="bigchip" data-sp="Gato">Gato</button></div></div>
+
+      <div class="field"><label>Condição corporal aparente</label>
+        <div class="bigchips" id="gBcs">
+          <button class="bigchip warnsel" data-bcs="2">Muito magro</button>
+          <button class="bigchip" data-bcs="5">Parece saudável</button>
+          <button class="bigchip" data-bcs="8">Acima do peso</button></div></div>
+
+      <div class="field"><label>Como reagiu a você</label>
+        <div class="bigchips" id="gBeh">
+          <button class="bigchip" data-beh="Indiferente">Ignorou</button>
+          <button class="bigchip" data-beh="Aproximação amigável">Chegou perto</button>
+          <button class="bigchip" data-beh="Fuga">Fugiu</button>
+          <button class="bigchip" data-beh="Vigilante a distância">Ficou vigiando</button>
+          <button class="bigchip warnsel" data-beh="Agressivo">Rosnou ou avançou</button></div>
+        <input type="hidden" id="fBeh" value="Indiferente"></div>
+
+      <div class="field"><label>Quantos animais estavam juntos</label>
+        <div class="bigchips" id="gGrp">
+          ${[1,2,3,'4 ou mais'].map((n,i)=>`<button class="bigchip ${i?'':'on'}" data-grp="${i===3?5:n}">${n}</button>`).join('')}</div>
+        <input type="hidden" id="fGroup" value="1"></div>
+
+      <div class="field"><label>Notou algum destes sinais? <span class="hint">opcional</span></label>
+        <div class="chips" id="fClin">${CLIN.map(c=>`<button class="chip" data-clin="${c}">${c}</button>`).join('')}</div></div>
+
+      <div class="field" style="margin:0"><label>Quer descrever algo? <span class="hint">opcional</span></label>
+        <textarea id="fNotes" placeholder="Cor, marcas, coleira, filhotes por perto, quem alimenta, há quanto tempo você vê esse animal"></textarea></div>
+    </div>
+
+    ${eq?`<details class="adv">
+      <summary>Ficha completa de protocolo</summary>
+      <div class="inner">
         <div class="grid2">
           <div class="field"><label>Código individual <span class="hint">reutilize se for reavistamento</span></label><input type="text" id="fCode" placeholder="CAO-001"></div>
           <div class="field"><label>Este avistamento é</label><select id="fResight">
             <option value="Primeiro">Primeiro registro</option><option value="Reavistamento">Reavistamento</option><option value="Incerto">Não tenho certeza</option></select></div>
         </div>
         <div class="field"><label>Marcas individuais</label><textarea id="fMarks" placeholder="Mancha branca no peito, orelha esquerda dobrada, cicatriz na coxa direita"></textarea></div>
-      </div>
-      ${common}
-      <div class="card">
-        <h3>Caracterização</h3><p class="sub">Atributos observáveis a distância</p>
         <div class="grid2">
           <div class="field"><label>Sexo</label><select id="fSex"><option>Não identificado</option><option>Macho</option><option>Fêmea</option></select></div>
           <div class="field"><label>Classe etária</label><select id="fAge"><option>Adulto</option><option>Filhote</option><option>Jovem</option><option>Idoso aparente</option></select></div>
@@ -889,22 +942,6 @@ function renderRegistrar(){
           <div class="field"><label>Pelagem</label><select id="fCoat"><option>Curta</option><option>Média</option><option>Longa</option><option>Sem pelo em áreas</option></select></div>
           <div class="field"><label>Coleira</label><select id="fCollar"><option>Ausente</option><option>Presente sem identificação</option><option>Presente com identificação</option></select></div>
           <div class="field"><label>Castração aparente</label><select id="fNeut"><option>Não identificado</option><option>Sim</option><option>Não</option></select></div>
-        </div>
-        <div class="field"><label>Sinais reprodutivos</label><div class="row">
-          <label style="font-weight:500"><input type="checkbox" id="fLact"> fêmea lactante</label>
-          <label style="font-weight:500"><input type="checkbox" id="fPreg"> gestação aparente</label>
-          <label style="font-weight:500"><input type="checkbox" id="fPups"> com filhotes</label></div></div>
-        <div class="field"><label>Escore de condição corporal <span class="hint">1 a 3 magro · 4 a 6 adequado · 7 a 9 sobrepeso</span></label>
-          <div class="scale" id="fBcs">${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-bcs="${n}">${n}</button>`).join('')}</div></div>
-        <div class="field"><label>Sinais clínicos visíveis</label>
-          <div class="chips" id="fClin">${CLIN.map(c=>`<button class="chip" data-clin="${c}">${c}</button>`).join('')}</div></div>
-      </div>
-      <div class="card">
-        <h3>Comportamento e contexto</h3><p class="sub">Como o animal reage e como sobrevive</p>
-        <div class="grid2">
-          <div class="field"><label>Reação ao observador</label><select id="fBeh">
-            <option>Indiferente</option><option>Aproximação amigável</option><option>Fuga</option><option>Vigilante a distância</option><option>Agressivo</option></select></div>
-          <div class="field"><label>Tamanho do grupo</label><input type="number" id="fGroup" min="1" value="1"></div>
           <div class="field"><label>Vínculo aparente</label><select id="fOwn">
             <option>Errante sem vínculo</option><option>Semidomiciliado com acesso à rua</option><option>Domiciliado solto na via</option><option>Não identificado</option></select></div>
           <div class="field"><label>Fonte de alimento</label><select id="fFood">
@@ -913,35 +950,59 @@ function renderRegistrar(){
             <option>Nenhum</option><option>Marquise ou calçada</option><option>Terreno baldio</option><option>Quintal aberto</option><option>Sob veículo</option></select></div>
           <div class="field"><label>Interação com pessoas</label><select id="fPeople">
             <option>Nenhuma</option><option>Recebe carinho</option><option>É enxotado</option><option>Interage com crianças</option></select></div>
+          <div class="field"><label>Sociabilidade</label><select id="fSoc">
+            <option>Não avaliada</option><option>Permite aproximação</option><option>Permite toque</option><option>Não permite aproximação</option></select></div>
         </div>
-        <div class="field"><label>Sociabilidade <span class="hint">usado em versões futuras para adoção</span></label><select id="fSoc">
-          <option>Não avaliada</option><option>Permite aproximação</option><option>Permite toque</option><option>Não permite aproximação</option></select></div>
-        <div class="field"><label>Observações livres</label><textarea id="fNotes"></textarea></div>
+        <div class="field"><label>Sinais reprodutivos</label><div class="row">
+          <label style="font-weight:500"><input type="checkbox" id="fLact"> fêmea lactante</label>
+          <label style="font-weight:500"><input type="checkbox" id="fPreg"> gestação aparente</label>
+          <label style="font-weight:500"><input type="checkbox" id="fPups"> com filhotes</label></div></div>
+        <div class="field" style="margin:0"><label>Escore de condição corporal preciso <span class="hint">substitui a escolha rápida acima</span></label>
+          <div class="scale" id="fBcs">${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-bcs="${n}">${n}</button>`).join('')}</div></div>
       </div>
-      <div class="card"><h3>Salvar</h3><p class="sub">Confira a coordenada antes de gravar</p>
-        <button class="btn pri" id="bSave">Gravar ficha de campo</button></div>
-    </div>`;
-  }
+    </details>`:''}
+
+    <div class="savebar"><button class="btn pri" id="bSave">${eq?'Gravar ficha':'Enviar registro'}</button></div>
+  </div>`;
   wireForm();
 }
 function wireForm(){
-  $$('#fSp .chip').forEach(b=>b.onclick=()=>{$$('#fSp .chip').forEach(c=>c.classList.remove('on'));b.classList.add('on');_sp=b.dataset.sp;});
-  $$('[data-clin]').forEach(b=>b.onclick=()=>{b.classList.toggle('on');const c=b.dataset.clin;_clin.has(c)?_clin.delete(c):_clin.add(c);});
-  $$('#fBcs button, #fCond .chip').forEach(b=>b.onclick=()=>{
-    [...b.parentElement.children].forEach(c=>c.classList.remove('on'));b.classList.add('on');_bcs=+b.dataset.bcs;});
-  $('#bGPS').onclick=()=>getGPS(g=>{if(!g)return;_geo=g;$('#fLat').value=g.lat.toFixed(6);$('#fLon').value=g.lon.toFixed(6);
-    $('#fGeo').textContent='±'+Math.round(g.acc)+' m';checkGeo();});
-  ['fLat','fLon'].forEach(id=>$('#'+id).addEventListener('input',checkGeo));
+  const groupPick=(sel,fn)=>$$(sel).forEach(b=>b.onclick=()=>{
+    [...b.parentElement.children].forEach(c=>c.classList.remove('on'));b.classList.add('on');fn(b);});
+  groupPick('#gSp [data-sp]', b=>_sp=b.dataset.sp);
+  groupPick('#gBcs [data-bcs]', b=>_bcs=+b.dataset.bcs);
+  groupPick('#gBeh [data-beh]', b=>$('#fBeh').value=b.dataset.beh);
+  groupPick('#gGrp [data-grp]', b=>$('#fGroup').value=b.dataset.grp);
+  groupPick('#fBcs [data-bcs]', b=>{_bcs=+b.dataset.bcs;
+    $$('#gBcs [data-bcs]').forEach(c=>c.classList.remove('on'));});
+  $$('[data-clin]').forEach(b=>b.onclick=()=>{b.classList.toggle('on');
+    const c=b.dataset.clin;_clin.has(c)?_clin.delete(c):_clin.add(c);});
   $('#fPhoto').onchange=e=>loadPhoto(e.target);
+  $('#bGPS').onclick=askGeo;
+  ['fLat','fLon'].forEach(id=>$('#'+id).addEventListener('input',()=>{_geo=null;checkGeo();}));
   $('#bSave').onclick=saveRecord;
-  checkGeo();
+  askGeo();
+}
+function setGeoUI(state,txt){
+  const d=$('#geoDot'),t=$('#geoTxt'); if(!d)return;
+  d.className='dot'+(state?' '+state:''); t.textContent=txt;
+}
+function askGeo(){
+  setGeoUI('','Buscando localização...');
+  if(!navigator.geolocation){ setGeoUI('no','GPS indisponível. Informe manualmente.'); return checkGeo(); }
+  navigator.geolocation.getCurrentPosition(p=>{
+    _geo={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy};
+    $('#fLat').value=_geo.lat.toFixed(6); $('#fLon').value=_geo.lon.toFixed(6);
+    setGeoUI('ok','Localização capturada, precisão de '+Math.round(_geo.acc)+' m');
+    checkGeo();
+  },()=>{ setGeoUI('no','Não foi possível obter o GPS. Toque em tentar de novo ou informe manualmente.'); checkGeo(); },
+  {enableHighAccuracy:true,timeout:15000,maximumAge:0});
 }
 function checkGeo(){
+  const el=$('#regCheck'); if(!el) return;
   const lat=+$('#fLat').value,lon=+$('#fLon').value;
-  const ok=lat&&lon&&Math.abs(lat+16.07)<.6&&Math.abs(lon+57.68)<.6;
-  $('#regCheck').innerHTML=!lat||!lon?'<span style="color:var(--rubi)">Sem coordenada. O registro não aparecerá no mapa.</span>'
-    :ok?'<span style="color:var(--verde)">Coordenada dentro da região de Cáceres.</span>'
-    :'<span style="color:var(--ocre)">Coordenada fora da região esperada. Verifique os sinais de latitude e longitude.</span>';
+  el.innerHTML = (lat&&lon&&(Math.abs(lat+16.07)>.6||Math.abs(lon+57.68)>.6))
+    ? '<span style="color:var(--ocre)">Coordenada fora da região de Cáceres. Confira os sinais de menos.</span>' : '';
 }
 function loadPhoto(inp){
   const f=inp.files[0];if(!f)return;
@@ -953,7 +1014,8 @@ function loadPhoto(inp){
     _photo=c.toDataURL('image/jpeg',.55);
     let kb=Math.round(_photo.length/1365);
     if(kb>900){_photo=c.toDataURL('image/jpeg',.4);kb=Math.round(_photo.length/1365);toast('Imagem recomprimida para caber no limite.');}
-    $('#fPrev').innerHTML=`<img src="${_photo}" alt="Pré-visualização" style="width:100%;border-radius:12px"><p class="meta">${kb} KB</p>`;
+    $('#fPrev').innerHTML=`<img src="${_photo}" alt="Pré-visualização" style="width:100%;border-radius:12px"><p class="meta">${kb} KB · toque no botão acima para trocar</p>`;
+    const pl=$('#photoLabel'); if(pl) pl.querySelector('span').textContent='Trocar foto';
   };im.src=rd.result;};
   rd.readAsDataURL(f);
 }
