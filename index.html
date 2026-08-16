@@ -277,6 +277,12 @@ details.adv .inner{padding-top:14px}
   <div id="regForm"></div>
 </div></section>
 
+<section class="view" id="v-meus"><div class="wrap">
+  <div class="head"><div><h2>Meus registros</h2>
+    <p>Tudo que você enviou. Você pode apagar o que ainda não foi conferido e pedir a remoção do que já foi validado.</p></div></div>
+  <div id="meusBox"></div>
+</div></section>
+
 <section class="view" id="v-educacao"><div class="wrap">
   <div class="head"><div><h2>Educação e saúde única</h2>
     <p>Guarda responsável, zoonoses relevantes em Mato Grosso e o que fazer diante de um animal em situação de rua.</p></div></div>
@@ -473,12 +479,12 @@ const isEquipe=()=>ST.me&&ST.me.papel==='pesquisador';
 
 const TABS=[
   {id:'registrar',t:'＋ Registrar'},{id:'mapa',t:'Mapa de calor'},{id:'galeria',t:'Animais'},
-  {id:'inicio',t:'Sobre'},{id:'educacao',t:'Educação'},
+  {id:'meus',t:'Meus registros',mine:1},{id:'inicio',t:'Sobre'},{id:'educacao',t:'Educação'},
   {id:'validacao',t:'Validação',eq:1},{id:'sessoes',t:'Sessões',eq:1},
   {id:'dados',t:'Dados',eq:1},{id:'analises',t:'Análises',eq:1},{id:'protocolo',t:'Protocolo',eq:1}
 ];
 function renderTabs(){
-  $('#tabs').innerHTML=TABS.filter(t=>!t.eq||isEquipe()).map(t=>{
+  $('#tabs').innerHTML=TABS.filter(t=>(!t.eq||isEquipe())&&(!t.mine||ST.me)).map(t=>{
     const n = t.id==='validacao' ? ST.recs.filter(r=>r.status==='pendente').length : 0;
     return `<button class="tab ${t.eq?'res':''} ${ST.view===t.id?'on':''}" data-go="${t.id}">${t.t}${n?` (${n})`:''}</button>`;
   }).join('');
@@ -489,12 +495,13 @@ $('#brandBtn').onclick=()=>go('inicio');
 function go(id){
   const tab=TABS.find(t=>t.id===id)||TABS[0]; id=tab.id;
   if(tab.eq&&!isEquipe()){ toast('Área restrita à equipe de pesquisa.'); id='inicio'; }
+  if(tab.mine&&!ST.me){ toast('Entre para ver seus registros.'); login(); return; }
   if(tab.auth&&!ST.me){ toast('Entre com sua conta Google para registrar.'); login(); return; }
   ST.view=id; location.hash=id;
   $$('.view').forEach(v=>v.classList.remove('on'));
   $('#v-'+id).classList.add('on');
   renderTabs(); window.scrollTo({top:0});
-  ({inicio:renderInicio,mapa:renderMapa,galeria:renderGaleria,registrar:renderRegistrar,educacao:renderEducacao,
+  ({inicio:renderInicio,mapa:renderMapa,galeria:renderGaleria,registrar:renderRegistrar,educacao:renderEducacao,meus:renderMeus,
     validacao:renderValidacao,sessoes:renderSessoes,dados:renderDados,analises:renderAnalises,protocolo:()=>{}}[id]||(()=>{}))();
   $('#footStat').textContent=ST.recs.length+' avistamentos · '+ST.ses.length+' sessões';
 }
@@ -601,10 +608,11 @@ function donut(pairs){
 }
 function countBy(a,f){const m={};a.forEach(r=>{const k=f(r);if(k==null||k==='')return;m[k]=(m[k]||0)+1;});return Object.entries(m).sort((x,y)=>y[1]-x[1]);}
 
+const ativo=r=>r.status!=='removido';
 function srcSet(src){
-  if(src==='protocolo') return ST.recs.filter(r=>r.tipo==='protocolo');
-  if(src==='cidadao')   return ST.recs.filter(r=>r.tipo==='cidadao'&&r.status!=='descartado');
-  return ST.recs.filter(r=>r.tipo==='protocolo'||(r.tipo==='cidadao'&&r.status==='validado'));
+  if(src==='protocolo') return ST.recs.filter(r=>r.tipo==='protocolo'&&ativo(r));
+  if(src==='cidadao')   return ST.recs.filter(r=>r.tipo==='cidadao'&&ativo(r)&&r.status!=='descartado');
+  return ST.recs.filter(r=>ativo(r)&&(r.tipo==='protocolo'||(r.tipo==='cidadao'&&r.status==='validado')));
 }
 function layerFilter(recs,mode){
   const r=recs.filter(x=>x.lat&&x.lon);
@@ -754,7 +762,7 @@ function cardHTML(r){
     </div></div>`;
 }
 function renderGaleria(){
-  let r=ST.recs.filter(x=>x.tipo==='protocolo'||x.status!=='descartado'||isEquipe());
+  let r=ST.recs.filter(x=>ativo(x)&&(x.tipo==='protocolo'||x.status!=='descartado'||isEquipe()));
   const s1=$('#galSrc').value; if(s1) r=r.filter(x=>x.tipo===s1);
   const sp=$('#galSp').value; if(sp) r=r.filter(x=>x.species===sp);
   const so=$('#galSort').value; r=[...r];
@@ -830,6 +838,10 @@ async function openRecord(id){
     <div>${cs.map((c,i)=>`<div class="cmt"><b>${esc(c.n)}</b> <span class="meta">${dtBR(c.d)}</span><br>${esc(c.t)}
       ${isEquipe()?`<br><button class="btn sm danger" style="margin-top:6px" data-delc="${i}">Remover</button>`:''}</div>`).join('')
       ||'<p class="meta" style="padding:10px 0">Nenhum comentário. Informações locais ajudam o monitoramento.</p>'}</div>
+    ${(ST.me&&(r.uid===ST.me.uid||isEquipe())&&ativo(r))?`<div class="row" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+      <button class="btn sm danger" data-apagar="${r.id}">${r.status==='pendente'?'Apagar este registro':'Remover da base'}</button>
+      <span class="meta">${r.status==='pendente'?'Ainda não conferido, some por completo.':'Já validado, fica arquivado com o motivo.'}</span></div>`:''}
+    ${!ativo(r)?'<div class="bad" style="margin-top:14px">Registro removido pelo autor em '+dtBR(r.removidoEm)+(r.motivoRemocao?'. Motivo: '+esc(r.motivoRemocao):'')+'</div>':''}
     ${ST.me?`<div class="field" style="margin-top:10px"><label>Comentário</label>
       <textarea id="cT" placeholder="Você conhece este animal? Há quanto tempo está na região?"></textarea></div>
       <button class="btn pri" id="cB">Publicar comentário</button>`
@@ -838,6 +850,59 @@ async function openRecord(id){
   $('#mx').onclick=closeModal;
   const cb=$('#cB'); if(cb) cb.onclick=()=>addComment(id);
   $$('[data-delc]').forEach(b=>b.onclick=()=>delComment(id,+b.dataset.delc));
+  $$('[data-apagar]').forEach(b=>b.onclick=()=>apagarProprio(b.dataset.apagar));
+}
+
+async function apagarProprio(id){
+  const r=ST.recs.find(x=>x.id===id); if(!r) return;
+  if(!ST.me||(r.uid!==ST.me.uid&&!isEquipe())) return toast('Só o autor do registro pode apagá-lo.');
+  if(r.status==='pendente'){
+    if(!confirm('Apagar este registro definitivamente? Ele ainda não foi conferido, então nada se perde na base científica.')) return;
+    try{
+      await deleteDoc(doc(db,'avistamentos',id));
+      try{ await deleteDoc(doc(db,'fotos',id)); }catch(e){}
+      ST.recs=ST.recs.filter(x=>x.id!==id); delete photoCache[id];
+      closeModal(); toast('Registro apagado.'); renderTabs();
+      ({meus:renderMeus,galeria:renderGaleria,dados:renderDados,validacao:renderValidacao}[ST.view]||renderMeus)();
+    }catch(e){ toast('Não foi possível apagar: '+(e.code||e.message)); }
+    return;
+  }
+  const motivo=prompt('Este registro já foi validado e pode ter entrado em análises. Ele sai do mapa, da galeria e das estatísticas, mas fica arquivado para auditoria.\n\nPor que você quer removê-lo?');
+  if(motivo===null) return;
+  if(motivo.trim().length<4) return toast('Descreva o motivo em poucas palavras.');
+  try{
+    const upd={status:'removido',motivoRemocao:motivo.trim(),removidoEm:new Date().toISOString()};
+    await updateDoc(doc(db,'avistamentos',id),upd);
+    Object.assign(r,upd);
+    closeModal(); toast('Registro removido da base ativa.'); renderTabs();
+    ({meus:renderMeus,galeria:renderGaleria,dados:renderDados,mapa:renderMapa}[ST.view]||renderMeus)();
+  }catch(e){ toast('Não foi possível remover: '+(e.code||e.message)); }
+}
+
+function renderMeus(){
+  if(!ST.me){ $('#meusBox').innerHTML='<div class="empty"><b>Entre para ver seus registros</b></div>'; return; }
+  const meus=ST.recs.filter(r=>r.uid===ST.me.uid).sort((a,b)=>String(b.datetime).localeCompare(String(a.datetime)));
+  const ativos=meus.filter(ativo);
+  if(!meus.length){ $('#meusBox').innerHTML='<div class="empty"><b>Você ainda não enviou nenhum registro</b>O primeiro leva menos de um minuto.<br><br><button class="btn pri" data-go="registrar">Registrar agora</button></div>'; return; }
+  $('#meusBox').innerHTML=`
+    <div class="statbox" style="margin-bottom:16px">
+      <div class="stat"><b>${ativos.length}</b><span>Registros ativos</span></div>
+      <div class="stat"><b>${meus.filter(r=>r.status==='pendente').length}</b><span>Aguardando conferência</span></div>
+      <div class="stat"><b>${meus.filter(r=>r.status==='validado').length}</b><span>Validados</span></div>
+      <div class="stat"><b>${meus.filter(r=>!ativo(r)).length}</b><span>Removidos por você</span></div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden"><div class="tablewrap" style="border:0;border-radius:0">
+    <table><thead><tr><th>Data</th><th>Espécie</th><th>Bairro</th><th>Situação</th><th class="num">Bem estar</th><th></th></tr></thead><tbody>
+    ${meus.map(r=>`<tr style="${ativo(r)?'':'opacity:.5'}">
+      <td>${dtBR(r.datetime)}</td><td>${esc(r.species||'')}</td><td>${esc(r.bairro||'—')}</td>
+      <td><span class="tag ${!ativo(r)?'r':r.status==='validado'?'v':r.status==='descartado'?'r':'o'}">${esc(r.status)}</span></td>
+      <td class="num">${r.bemEstar?fmt(r.bemEstar):'—'}</td>
+      <td><button class="btn sm" data-open="${r.id}">Ver</button>
+      ${ativo(r)?`<button class="btn sm danger" data-apagar="${r.id}">${r.status==='pendente'?'Apagar':'Remover'}</button>`:''}</td>
+    </tr>`).join('')}
+    </tbody></table></div></div>
+    <div class="note" style="margin-top:14px">Registro pendente é apagado por completo. Registro já validado é arquivado com motivo e data, porque pode ter entrado em uma análise: apagar sem rastro faria o número de amostras mudar depois de calculado.</div>`;
+  $$('[data-apagar]').forEach(b=>b.onclick=()=>apagarProprio(b.dataset.apagar));
 }
 async function addComment(id){
   const t=$('#cT').value.trim(); if(t.length<3)return toast('Escreva um comentário.');
