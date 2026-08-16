@@ -6,6 +6,8 @@
 <title>PATAS DE CÁCERES | Mapeamento de cães e gatos em situação de rua</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -93,7 +95,8 @@ th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--line);white
 th{background:var(--soft);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;font-family:var(--mono);color:var(--ink-2)}
 td.num,th.num{text-align:right;font-family:var(--mono)}
 .mapbox{position:relative;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff}
-#mapCanvas{display:block;width:100%;height:auto}
+#map{border-radius:0}
+.leaflet-container{font-family:var(--body)}
 .maplegend{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-2);flex-wrap:wrap}
 .ramp{height:10px;width:170px;border-radius:5px;background:linear-gradient(90deg,#FFFFFF,#FDF0DE,#F4CE8F,#D68D3A,#A84F20,#5E2411);border:1px solid var(--line)}
 .mapctrl{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
@@ -160,13 +163,13 @@ details.adv .inner{padding-top:14px}
 .req::after{content:' obrigatório';font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--caramelo-3);background:var(--areia);padding:2px 7px;border-radius:999px;margin-left:6px;font-weight:600}
 .card.pending{border-color:var(--caramelo);box-shadow:0 0 0 3px var(--caramelo-2)}
 .likert{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
-.likert .anchors{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-2);font-family:var(--mono);margin-bottom:8px;gap:8px}
-.likert .anchors span:last-child{text-align:right}
-.likert .opts{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
-.likert .opts button{min-height:50px;border:1.5px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;font-family:var(--mono);font-weight:600;font-size:16px;color:var(--ink-2)}
-.likert .opts button.on{color:#fff;border-color:transparent}
-.likert .sel{margin-top:9px;font-size:13.5px;font-weight:600;min-height:20px}
+
+.likert .opts{display:flex;flex-direction:column;gap:7px}
+.likert .opts button{display:flex;align-items:center;gap:11px;text-align:left;min-height:48px;border:1.5px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;font-size:14.5px;font-weight:500;color:var(--ink);padding:8px 12px;line-height:1.3}
+.likert .opts button i{flex:none;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-style:normal;font-size:15px;color:#fff}
+.likert .opts button.on{border-color:var(--ink);font-weight:600;box-shadow:inset 0 0 0 1px var(--ink)}
 .lk1{background:#B23A2E} .lk2{background:#D07A2C} .lk3{background:#D79A4E} .lk4{background:#8C9A55} .lk5{background:#6F7F45}
+.rk1{background:#6F7F45} .rk2{background:#8C9A55} .rk3{background:#D79A4E} .rk4{background:#D07A2C} .rk5{background:#B23A2E}
 .savebar{position:sticky;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px 0 16px;margin-top:18px;z-index:30}
 .savebar .btn{width:100%;min-height:54px;font-size:16px}
 @media (max-width:860px){.brand-s{display:none}}
@@ -240,7 +243,7 @@ details.adv .inner{padding-top:14px}
       <select id="mapLayer" style="width:auto;margin-left:6px">
         <option value="all">Cães e gatos</option><option value="Cão">Somente cães</option><option value="Gato">Somente gatos</option>
         <option value="ruim">Condição corporal baixa</option><option value="bemestar">Bem estar comprometido</option><option value="pelo">Pele e pelagem ruins</option><option value="mob">Dificuldade de locomoção</option><option value="ninhada">Fêmeas lactantes ou gestantes</option>
-        <option value="agress">Reação agressiva</option><option value="doente">Com sinais clínicos</option>
+        <option value="agress">Reação agressiva ao observador</option><option value="risco">Risco alto às pessoas</option><option value="dono">Sem dono aparente</option><option value="doente">Com sinais clínicos</option>
       </select></label>
     <label style="font-size:13px;font-weight:600">Banda
       <input type="range" id="mapBw" min="60" max="900" step="20" value="220" style="width:130px;vertical-align:middle">
@@ -249,7 +252,7 @@ details.adv .inner{padding-top:14px}
     <label style="font-size:13px;font-weight:600"><input type="checkbox" id="mapEffort"> corrigir por esforço</label>
   </div>
   <div class="mapbox">
-    <canvas id="mapCanvas" width="1100" height="720"></canvas>
+    <div id="map" style="height:min(72vh,560px);width:100%;background:#F3E3CE"></div>
     <div class="maplegend"><span>Baixa</span><span class="ramp"></span><span>Alta densidade relativa</span>
       <span style="flex:1"></span><span id="mapInfo" class="meta"></span></div>
   </div>
@@ -623,103 +626,92 @@ function layerFilter(recs,mode){
   if(mode==='mob')return r.filter(x=>x.lkMob&&x.lkMob<=2);
   if(mode==='ninhada')return r.filter(x=>x.lactating||x.pregnant);
   if(mode==='agress')return r.filter(x=>x.lkSoc?x.lkSoc<=2:x.behavior==='Agressivo');
+  if(mode==='risco')return r.filter(x=>x.lkRisco&&x.lkRisco>=4);
+  if(mode==='dono')return r.filter(x=>x.ownership==='Errante sem vínculo');
   if(mode==='doente')return r.filter(x=>(x.clinical||[]).length>0);
   return r;
 }
-function mapBounds(pts){
-  let la=[-16.115,-16.030],lo=[-57.735,-57.630];
-  if(pts.length){
-    const lats=pts.map(p=>p.lat),lons=pts.map(p=>p.lon);
-    la=[Math.min(...lats),Math.max(...lats)];lo=[Math.min(...lons),Math.max(...lons)];
-    const dy=Math.max((la[1]-la[0])*.18,.006),dx=Math.max((lo[1]-lo[0])*.18,.006);
-    la=[la[0]-dy,la[1]+dy];lo=[lo[0]-dx,lo[1]+dx];
-  }
-  return{la,lo};
+let LMAP=null,LHEAT=null,LPTS=null;
+function ensureMap(){
+  if(LMAP||typeof L==='undefined') return;
+  LMAP=L.map('map',{center:[CENTER.lat,CENTER.lon],zoom:14,zoomControl:true});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {maxZoom:19,attribution:'Mapa base OpenStreetMap'}).addTo(LMAP);
+  LPTS=L.layerGroup().addTo(LMAP);
+  LMAP.on('moveend',drawHeat);
+  L.control.scale({imperial:false}).addTo(LMAP);
 }
-function drawMap(){
-  const cv=$('#mapCanvas'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
-  const src=$('#mapSrc').value,bw=+$('#mapBw').value,showPts=$('#mapPts').checked,eff=$('#mapEffort').checked;
+function drawHeat(){
+  if(!LMAP) return;
+  const src=$('#mapSrc').value,bw=+$('#mapBw').value,eff=$('#mapEffort').checked,showPts=$('#mapPts').checked;
   $('#mapBwV').textContent=bw+' m';
-  const base=srcSet(src), pts=layerFilter(base,$('#mapLayer').value);
-  ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
-  if(!pts.length){
-    ctx.fillStyle='#6E5847';ctx.textAlign='center';ctx.font='500 22px Archivo, sans-serif';
-    ctx.fillText('Nenhum registro nesta combinação de filtros',W/2,H/2-6);
-    ctx.font='400 15px IBM Plex Sans, sans-serif';
-    ctx.fillText('O mapa usa apenas dados reais gravados no banco.',W/2,H/2+22);
-    $('#mapInfo').textContent='';return;
-  }
-  const B=mapBounds(base.filter(r=>r.lat&&r.lon));
-  const GX=160,GY=Math.round(GX*H/W),cw=(B.lo[1]-B.lo[0])/GX,ch=(B.la[1]-B.la[0])/GY;
-  const mLat=111320,mLon=111320*Math.cos(CENTER.lat*Math.PI/180);
+  const pts=layerFilter(srcSet(src),$('#mapLayer').value);
+  if(LHEAT){ LMAP.removeLayer(LHEAT); LHEAT=null; }
+  LPTS.clearLayers();
+  $('#mapInfo').textContent = pts.length
+    ? pts.length+' registros'+(eff?' · corrigido por km percorrido':'')
+    : 'Nenhum registro nesta combinação de filtros';
+  if(!pts.length) return;
+
+  const b=LMAP.getBounds(), la=[b.getSouth(),b.getNorth()], lo=[b.getWest(),b.getEast()];
+  const size=LMAP.getSize();
+  const W=Math.min(640,Math.max(240,size.x)), H=Math.max(160,Math.round(W*size.y/Math.max(size.x,1)));
+  const GX=140, GY=Math.max(40,Math.round(GX*H/W));
+  const cw=(lo[1]-lo[0])/GX, ch=(la[1]-la[0])/GY;
+  const mLat=111320, mLon=111320*Math.cos(CENTER.lat*Math.PI/180);
   const g=new Float64Array(GX*GY), eg=eff?new Float64Array(GX*GY):null;
   const kern=(dx,dy,h)=>Math.exp(-(dx*dx+dy*dy)/(2*h*h));
-  for(let j=0;j<GY;j++){const lat=B.la[0]+(j+.5)*ch;
-    for(let i=0;i<GX;i++){const lon=B.lo[0]+(i+.5)*cw;let v=0;
-      for(const p of pts){const dx=(p.lon-lon)*mLon,dy=(p.lat-lat)*mLat;
-        if(Math.abs(dx)>3*bw||Math.abs(dy)>3*bw)continue;v+=kern(dx,dy,bw);}
+  for(let j=0;j<GY;j++){ const lat=la[0]+(j+.5)*ch;
+    for(let i=0;i<GX;i++){ const lon=lo[0]+(i+.5)*cw; let v=0;
+      for(const p of pts){ const dx=(p.lon-lon)*mLon, dy=(p.lat-lat)*mLat;
+        if(Math.abs(dx)>3*bw||Math.abs(dy)>3*bw) continue; v+=kern(dx,dy,bw); }
       g[j*GX+i]=v;
-      if(eff){let e=0;
-        for(const s of ST.ses){if(!s.lat||!s.lon||!s.distanceKm)continue;
-          const dx=(s.lon-lon)*mLon,dy=(s.lat-lat)*mLat;
-          if(Math.abs(dx)>6*bw||Math.abs(dy)>6*bw)continue;
-          e+=kern(dx,dy,bw*1.6)*s.distanceKm;}
-        eg[j*GX+i]=e;}
-    }}
+      if(eff){ let e=0;
+        for(const t of ST.ses){ if(!t.lat||!t.lon||!t.distanceKm) continue;
+          const dx=(t.lon-lon)*mLon, dy=(t.lat-lat)*mLat;
+          if(Math.abs(dx)>6*bw||Math.abs(dy)>6*bw) continue;
+          e+=kern(dx,dy,bw*1.6)*t.distanceKm; }
+        eg[j*GX+i]=e; } } }
   let field=g;
-  if(eff){const f=new Float64Array(g.length),emax=Math.max(...eg);
-    for(let k=0;k<g.length;k++)f[k]=eg[k]>emax*.03?g[k]/eg[k]:0;field=f;}
+  if(eff){ const f=new Float64Array(g.length), emax=Math.max(...eg);
+    for(let k=0;k<g.length;k++) f[k]= eg[k]>emax*.03 ? g[k]/eg[k] : 0; field=f; }
   const max=Math.max(...field)||1;
   const stops=[[255,255,255],[253,240,222],[244,206,143],[214,141,58],[168,79,32],[94,36,17]];
-  const img=ctx.createImageData(W,H);
-  for(let y=0;y<H;y++){const gy=Math.min(GY-1,Math.floor((1-y/H)*GY));
-    for(let x=0;x<W;x++){const gx=Math.min(GX-1,Math.floor(x/W*GX));
-      const t=Math.pow(field[gy*GX+gx]/max,.62),u=Math.min(.9999,Math.max(0,t))*(stops.length-1);
-      const i0=Math.floor(u),f2=u-i0,a=stops[i0],b=stops[i0+1],o=(y*W+x)*4;
-      img.data[o]=a[0]+(b[0]-a[0])*f2;img.data[o+1]=a[1]+(b[1]-a[1])*f2;img.data[o+2]=a[2]+(b[2]-a[2])*f2;img.data[o+3]=255;}}
+  const cv=document.createElement('canvas'); cv.width=W; cv.height=H;
+  const ctx=cv.getContext('2d'), img=ctx.createImageData(W,H);
+  for(let y=0;y<H;y++){ const gy=Math.min(GY-1,Math.floor((1-y/H)*GY));
+    for(let x=0;x<W;x++){ const gx=Math.min(GX-1,Math.floor(x/W*GX));
+      const t=Math.pow(field[gy*GX+gx]/max,.62);
+      const u=Math.min(.9999,Math.max(0,t))*(stops.length-1);
+      const i0=Math.floor(u), f2=u-i0, a=stops[i0], c=stops[i0+1], o=(y*W+x)*4;
+      img.data[o]=a[0]+(c[0]-a[0])*f2; img.data[o+1]=a[1]+(c[1]-a[1])*f2;
+      img.data[o+2]=a[2]+(c[2]-a[2])*f2; img.data[o+3]=Math.round(235*Math.min(1,t*1.9));
+    } }
   ctx.putImageData(img,0,0);
-  ctx.strokeStyle='rgba(43,29,18,.10)';ctx.lineWidth=1;ctx.font='400 12px IBM Plex Mono, monospace';
-  ctx.fillStyle='rgba(43,29,18,.55)';ctx.textAlign='left';
-  for(let i=1;i<6;i++){
-    const x=W*i/6,lon=B.lo[0]+(B.lo[1]-B.lo[0])*i/6;
-    ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();ctx.fillText(lon.toFixed(3)+'°',x+4,H-8);
-    const y=H*i/6,lat=B.la[1]-(B.la[1]-B.la[0])*i/6;
-    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.fillText(lat.toFixed(3)+'°',6,y-5);
-  }
+  LHEAT=L.imageOverlay(cv.toDataURL(),b,{opacity:.75,interactive:false}).addTo(LMAP);
   if(showPts) pts.forEach(p=>{
-    const x=((p.lon-B.lo[0])/(B.lo[1]-B.lo[0]))*W, y=H-((p.lat-B.la[0])/(B.la[1]-B.la[0]))*H;
-    ctx.beginPath();ctx.arc(x,y,4.6,0,7);
-    ctx.fillStyle=p.tipo==='cidadao'?'#6F7F45':(p.species==='Gato'?'#2E6B72':'#5C3517');
-    ctx.fill();ctx.lineWidth=1.6;ctx.strokeStyle='#fff';ctx.stroke();});
-  const kmPx=W/((B.lo[1]-B.lo[0])*mLon/1000), barKm=kmPx>240?.5:1;
-  ctx.fillStyle='rgba(255,255,255,.85)';ctx.fillRect(W-190,H-52,178,40);
-  ctx.strokeStyle='#2B1D12';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(W-176,H-24);ctx.lineTo(W-176+barKm*kmPx,H-24);ctx.stroke();
-  ctx.fillStyle='#2B1D12';ctx.font='600 13px IBM Plex Mono, monospace';ctx.fillText(barKm+' km',W-176,H-32);
-  $('#mapInfo').textContent=pts.length+' registros'+(eff?' · corrigido por km percorrido':'');
+    L.circleMarker([p.lat,p.lon],{radius:6,weight:2,color:'#fff',
+      fillOpacity:.95,fillColor:p.tipo==='cidadao'?'#6F7F45':(p.species==='Gato'?'#2E6B72':'#5C3517')})
+     .on('click',()=>openRecord(p.id))
+     .bindTooltip((p.species||'')+(p.bemEstar?' · bem estar '+fmt(p.bemEstar):''))
+     .addTo(LPTS); });
 }
-function renderMapa(){
-  drawMap();
-  const src=$('#mapSrc').value, sel=layerFilter(srcSet(src),$('#mapLayer').value), c=clarkEvans(sel);
-  $('#clark').innerHTML=!c.ok
-    ? '<div class="empty"><b>Amostra insuficiente</b>São necessários ao menos 8 registros georreferenciados nesta camada.</div>'
-    : `<div class="statbox">
-        <div class="stat"><b>${fmt(c.R)}</b><span>Índice R</span></div>
-        <div class="stat"><b>${fmt(c.z)}</b><span>Escore z</span></div>
-        <div class="stat"><b>${pfmt(c.p)}</b><span>Valor de p</span></div>
-        <div class="stat"><b>${fmt(c.dens)}</b><span>Registros por km²</span></div></div>
-       <p style="font-size:13.5px;color:var(--ink-2);margin:12px 0 0">Distância média ao vizinho mais próximo de ${fmt(c.ro)} m contra ${fmt(c.re)} m esperados sob aleatoriedade, em ${fmt(c.areaKm2)} km² definidos pelo casco convexo. ${c.R<1?'R abaixo de 1 indica agregação':'R acima de 1 indica dispersão regular'}${c.p<.05?', com desvio significativo a 5%.':', mas o desvio não é significativo a 5%.'}</p>
-       <div class="warn" style="margin-top:12px">O casco convexo superestima a área quando os registros seguem ruas. Para o texto final, recorte pela malha urbana e recalcule.</div>`;
-  const b=countBy(srcSet(src),r=>r.bairro);
-  $('#bairroChart').innerHTML=b.length?barChart(b.slice(0,12),{color:'#2A6FB0'}):'<div class="empty"><b>Sem bairros registrados</b>Preencha o campo bairro na ficha.</div>';
-  const semEsf=ST.ses.filter(s=>!s.distanceKm).length;
-  $('#mapWarn').innerHTML = src==='cidadao'
-    ? '<div class="bad"><b>Camada cidadã isolada.</b> Estes pontos não têm esforço amostral associado. O padrão que aparece aqui reflete onde há moradores dispostos a registrar, e não pode ser lido como densidade de animais.</div>'
-    : (!ST.ses.length
-      ? '<div class="warn"><b>Este mapa ainda mostra onde a equipe passou, não onde estão os animais.</b> Sem sessões com distância percorrida não é possível separar densidade real de esforço de busca.</div>'
-      : (semEsf?`<div class="warn">${semEsf} sessão(ões) sem distância informada. A correção por esforço ignora essas saídas.</div>`:''));
+function fitMap(){
+  const all=ST.recs.filter(r=>r.lat&&r.lon&&ativo(r));
+  if(!LMAP) return;
+  if(all.length>=2){
+    LMAP.fitBounds(L.latLngBounds(all.map(r=>[r.lat,r.lon])).pad(.35));
+  } else if(all.length===1){
+    LMAP.setView([all[0].lat,all[0].lon],16);
+  } else {
+    LMAP.setView([CENTER.lat,CENTER.lon],14);
+  }
+  drawHeat();
 }
-['mapSrc','mapLayer','mapBw','mapPts','mapEffort'].forEach(id=>
-  document.addEventListener('input',e=>{if(e.target.id===id&&ST.view==='mapa')renderMapa();}));
+document.addEventListener('input',e=>{
+  if(['mapSrc','mapLayer','mapBw','mapPts','mapEffort'].includes(e.target.id)&&ST.view==='mapa'){
+    drawHeat(); statsMapa();
+  }});
 
 function renderInicio(){
   const base=srcSet('validado');
@@ -939,14 +931,13 @@ function renderRegistrar(){
 
   const CAM='<svg viewBox="0 0 24 24"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H8l1.2-2h5.6L16 6h2.5A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z"/><circle cx="12" cy="12.5" r="3.6"/></svg>';
   const sesOpts=[...ST.ses].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
-  const lk=(k,titulo,ajuda,rot,obrig)=>`
+  const lk=(k,titulo,ajuda,rot,obrig,inv)=>`
     <div class="field">
       <label class="${obrig?'req':''}">${titulo}</label>
       ${ajuda?`<p class="meta" style="margin:-2px 0 7px">${ajuda}</p>`:''}
-      <div class="likert" data-lk="${k}">
-        <div class="anchors"><span>1 · ${esc(rot[0])}</span><span>5 · ${esc(rot[4])}</span></div>
-        <div class="opts">${[1,2,3,4,5].map(n=>`<button data-v="${n}" title="${esc(rot[n-1])}">${n}</button>`).join('')}</div>
-        <div class="sel meta">Toque em um número</div>
+      <div class="likert" data-lk="${k}" data-inv="${inv?1:0}">
+        <div class="opts">${[1,2,3,4,5].map(n=>
+          `<button data-v="${n}"><i class="${inv?'rk':'lk'}${n}">${n}</i>${esc(rot[n-1])}</button>`).join('')}</div>
       </div>
     </div>`;
 
@@ -981,10 +972,7 @@ function renderRegistrar(){
             <div class="field"><label>Longitude</label><input type="number" id="fLon" step="0.000001" placeholder="-57.6811"></div>
           </div>
           <div class="field"><label>Bairro</label><input type="text" id="fBairro" placeholder="Cavalhada, Centro, Massa Barro..."></div>
-          <div class="field" style="margin:0"><label>Tipo de ambiente</label><select id="fEnv">
-            <option>Via residencial</option><option>Via comercial</option><option>Praça ou área verde</option>
-            <option>Entorno de mercado ou feira</option><option>Entorno de escola</option>
-            <option>Margem de córrego ou rio</option><option>Área de descarte de lixo</option><option>Terreno baldio</option></select></div>
+          <div class="field" style="margin:0"><label>Ponto de referência</label><input type="text" id="fRef" placeholder="Em frente ao mercado X, esquina da rua Y"></div>
         </div>
       </details>
     </div>
@@ -1003,14 +991,32 @@ function renderRegistrar(){
       <div class="field"><label>Cor predominante</label>
         <div class="chips" id="gColor">
           ${['Caramelo','Preto','Branco','Marrom escuro','Cinza','Malhado','Tigrado','Tricolor','Amarelado'].map(c=>`<button class="chip" data-k="colorPattern" data-v="${c}">${c}</button>`).join('')}</div></div>
-      <div class="field" style="margin:0"><label>Quantos animais estavam juntos</label>
+      <div class="field"><label>Quantos animais estavam juntos <span class="hint">contando o que você registrou</span></label>
         <div class="bigchips" id="gGrp">
-          ${[1,2,3,'4 ou mais'].map((n,i)=>`<button class="bigchip ${i?'':'on'}" data-grp="${i===3?5:n}">${n}</button>`).join('')}</div>
+          <button class="bigchip on" data-grp="1">Sozinho</button>
+          <button class="bigchip" data-grp="2">2</button>
+          <button class="bigchip" data-grp="3">3</button>
+          <button class="bigchip" data-grp="5">4 ou mais</button></div>
         <input type="hidden" id="fGroup" value="1"></div>
+      <div class="field" style="margin:0"><label class="req">Parece ter dono?</label>
+        <p class="meta" style="margin:-2px 0 7px">Coleira, pelo limpo, boa condição e permanência num mesmo portão sugerem vínculo com residência.</p>
+        <div class="bigchips" id="gOwn">
+          <button class="bigchip" data-k="ownership" data-v="Errante sem vínculo">Parece de rua</button>
+          <button class="bigchip" data-k="ownership" data-v="Semidomiciliado com acesso à rua">Tem dono, mas fica solto</button>
+          <button class="bigchip" data-k="ownership" data-v="Domiciliado solto na via">Tem dono e está fora de casa agora</button>
+          <button class="bigchip" data-k="ownership" data-v="Não identificado">Não dá para saber</button></div></div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px" id="cardLocal">
+      <div class="step"><b>4</b><div><h3>Onde ele estava exatamente</h3><span>O microambiente muda o risco de atropelamento e de conflito.</span></div></div>
+      <div class="field" style="margin:0"><label class="req">Local do avistamento</label>
+        <div class="bigchips" id="gEnv">
+          ${['Leito da rua','Calçada','Praça ou área verde','Frente de residência','Área comercial','Entorno de escola','Terreno baldio','Ponto de descarte de lixo','Margem de córrego ou rio','Estrada de acesso'].map(e=>`<button class="bigchip" data-k="env" data-v="${e}">${e}</button>`).join('')}</div>
+        <input type="hidden" id="fEnv" value=""></div>
     </div>
 
     <div class="card" style="margin-bottom:16px" id="cardLik">
-      <div class="step"><b>4</b><div><h3>Como o animal está</h3><span>Cinco domínios independentes, cada um de 1 a 5.</span></div></div>
+      <div class="step"><b>5</b><div><h3>Como o animal está</h3><span>Cinco domínios independentes, cada um de 1 a 5.</span></div></div>
       ${lk('corpo','Condição corporal','Avalie costelas, cintura e quadril vistos de lado.',
         ['Ossos muito aparentes','Magro','Ideal','Acima do peso','Obeso'],true)}
       ${lk('pelo','Pelagem e pele','Feridas, sarna, falhas de pelo, brilho.',
@@ -1021,18 +1027,20 @@ function renderRegistrar(){
         ['Apático, não reage','Pouco reativo','Reage devagar','Atento','Alerta e ativo'],true)}
       ${lk('soc','Reação a você','Distância de fuga e postura.',
         ['Agressivo, avançou','Rosnou ou ficou tenso','Fugiu ou evitou','Indiferente','Aproximou-se amigável'],true)}
+      ${lk('risco','Risco que o animal oferece às pessoas','Avalie o que você observou, não o que imagina que poderia acontecer.',
+        ['Nenhum risco aparente','Só presença, sem reação a pedestres','Late ou acompanha pedestres','Avança em pedestres ou ciclistas','Já mordeu ou atacou, segundo moradores'],true,true)}
       ${lk('hum','Relação com pessoas do local','Opcional, preencha só se observou.',
         ['É enxotado ou agredido','Tolerado com incômodo','Indiferença','Alguém oferece comida','Cuidado por moradores'],false)}
       <div class="note" id="wellOut" style="display:none"></div>
     </div>
 
     <div class="card" style="margin-bottom:16px">
-      <div class="step"><b>5</b><div><h3>Detalhes</h3><span>Opcional, mas é o que dá contexto ao registro.</span></div></div>
+      <div class="step"><b>6</b><div><h3>Detalhes</h3><span>Opcional, mas é o que dá contexto ao registro.</span></div></div>
       <div class="field"><label>Sinais clínicos visíveis</label>
         <div class="chips" id="fClin">${CLIN.map(c=>`<button class="chip" data-clin="${c}">${c}</button>`).join('')}</div></div>
       <div class="field"><label>Situação observada</label>
         <div class="chips" id="gCtx">
-          ${['Com filhotes','Fêmea lactante','Coleira presente','Perto de lixo','Comendo restos','Comedouro comunitário','Dormindo na via','Risco de atropelamento','Em grupo com outros cães'].map(c=>`<button class="chip" data-ctx="${c}">${c}</button>`).join('')}</div></div>
+          ${['Sozinho, sem outros animais por perto','Acompanhado de outros cães','Acompanhado de gatos','Com filhotes','Fêmea lactante','Coleira presente','Perto de lixo','Comendo restos','Comedouro comunitário','Dormindo na via','Exposto a risco de atropelamento','Alimentado por morador'].map(c=>`<button class="chip" data-ctx="${c}">${c}</button>`).join('')}</div></div>
       <div class="field" style="margin:0"><label>Descrição livre</label>
         <textarea id="fNotes" placeholder="Marcas que ajudam a reconhecer, quem cuida, há quanto tempo aparece no local, comportamento com outros animais"></textarea></div>
     </div>
@@ -1052,8 +1060,7 @@ function renderRegistrar(){
           <div class="field"><label>Pelagem</label><select id="fCoat"><option>Curta</option><option>Média</option><option>Longa</option><option>Sem pelo em áreas</option></select></div>
           <div class="field"><label>Coleira</label><select id="fCollar"><option>Ausente</option><option>Presente sem identificação</option><option>Presente com identificação</option></select></div>
           <div class="field"><label>Castração aparente</label><select id="fNeut"><option>Não identificado</option><option>Sim</option><option>Não</option></select></div>
-          <div class="field"><label>Vínculo aparente</label><select id="fOwn">
-            <option>Errante sem vínculo</option><option>Semidomiciliado com acesso à rua</option><option>Domiciliado solto na via</option><option>Não identificado</option></select></div>
+
           <div class="field"><label>Fonte de alimento</label><select id="fFood">
             <option>Não observada</option><option>Alimentado por morador</option><option>Lixo doméstico</option><option>Restos de comércio</option><option>Comedouro comunitário</option></select></div>
           <div class="field"><label>Abrigo</label><select id="fShelter">
@@ -1079,6 +1086,7 @@ const LKROT={
   mob:['Não se locomove','Manca muito','Manca leve','Anda bem','Corre e salta sem dificuldade'],
   vit:['Apático, não reage','Pouco reativo','Reage devagar','Atento','Alerta e ativo'],
   soc:['Agressivo, avançou','Rosnou ou ficou tenso','Fugiu ou evitou','Indiferente','Aproximou-se amigável'],
+  risco:['Nenhum risco aparente','Só presença, sem reação a pedestres','Late ou acompanha pedestres','Avança em pedestres ou ciclistas','Já mordeu ou atacou, segundo moradores'],
   hum:['É enxotado ou agredido','Tolerado com incômodo','Indiferença','Alguém oferece comida','Cuidado por moradores']
 };
 const BCS9={1:2,2:3,3:5,4:7,5:9};
@@ -1093,6 +1101,8 @@ function wireForm(){
     [...b.parentElement.children].forEach(c=>c.classList.remove('on'));b.classList.add('on');fn(b);updateFalta();});
   groupPick('#gSp [data-sp]', b=>_sp=b.dataset.sp);
   groupPick('#gSize [data-k]', b=>_extra.size=b.dataset.v);
+  groupPick('#gOwn [data-k]', b=>_extra.ownership=b.dataset.v);
+  groupPick('#gEnv [data-k]', b=>{_extra.env=b.dataset.v;$('#fEnv').value=b.dataset.v;});
   groupPick('#gGrp [data-grp]', b=>$('#fGroup').value=b.dataset.grp);
   $$('#gColor [data-k]').forEach(b=>b.onclick=()=>{
     const on=b.classList.contains('on');
@@ -1101,11 +1111,8 @@ function wireForm(){
   $$('.likert').forEach(box=>{
     const k=box.dataset.lk;
     box.querySelectorAll('button').forEach(b=>b.onclick=()=>{
-      box.querySelectorAll('button').forEach(c=>c.className='');
-      const v=+b.dataset.v; b.className='on lk'+v; _lk[k]=v;
-      const sel=box.querySelector('.sel');
-      sel.textContent=v+' · '+LKROT[k][v-1]; sel.classList.remove('meta');
-      updateFalta();
+      box.querySelectorAll('button').forEach(c=>c.classList.remove('on'));
+      b.classList.add('on'); _lk[k]=+b.dataset.v; updateFalta();
     });
   });
   $$('[data-clin]').forEach(b=>b.onclick=()=>{b.classList.toggle('on');
@@ -1120,10 +1127,14 @@ function wireForm(){
 }
 function updateFalta(){
   const falta=[];
-  ['corpo','pelo','mob','vit','soc'].forEach(k=>{ if(!_lk[k]) falta.push(k); });
+  ['corpo','pelo','mob','vit','soc','risco'].forEach(k=>{ if(!_lk[k]) falta.push(k); });
+  if(!_extra.ownership) falta.push('dono');
+  if(!_extra.env) falta.push('local');
   const semGeo=!(+$('#fLat').value&&+$('#fLon').value);
-  const cl=$('#cardLik'), cg=$('#cardGeo');
-  if(cl) cl.classList.toggle('pending',falta.length>0);
+  const cl=$('#cardLik'), cg=$('#cardGeo'), ci=$('#cardId'), cx=$('#cardLocal');
+  if(ci) ci.classList.toggle('pending',!_extra.ownership);
+  if(cx) cx.classList.toggle('pending',!_extra.env);
+  if(cl) cl.classList.toggle('pending',['corpo','pelo','mob','vit','soc','risco'].some(k=>!_lk[k]));
   if(cg) cg.classList.toggle('pending',semGeo);
   const w=indiceBemEstar(_lk), wo=$('#wellOut');
   if(wo){
@@ -1133,7 +1144,7 @@ function updateFalta(){
   }
   const f=$('#faltando');
   if(f) f.innerHTML = falta.length||semGeo
-    ? '<span style="color:var(--caramelo-3)">Falta preencher: '+[...(semGeo?['localização']:[]),...falta.map(k=>({corpo:'condição corporal',pelo:'pelagem',mob:'locomoção',vit:'vitalidade',soc:'reação a você'}[k]))].join(', ')+'</span>'
+    ? '<span style="color:var(--caramelo-3)">Falta preencher: '+[...(semGeo?['localização']:[]),...falta.map(k=>({corpo:'condição corporal',pelo:'pelagem',mob:'locomoção',vit:'vitalidade',soc:'reação a você',risco:'risco às pessoas',dono:'parece ter dono',local:'local do avistamento'}[k]))].join(', ')+'</span>'
     : '<span style="color:var(--oliva)">Tudo pronto para enviar</span>';
 }
 function setGeoUI(state,txt){
@@ -1176,9 +1187,12 @@ async function saveRecord(){
   if(!ST.me)return login();
   const eq=isEquipe(),btn=$('#bSave'),label=eq?'Gravar ficha':'Enviar registro';
   const V=id=>{const el=$('#'+id);return el?el.value:null;};
-  const falta=['corpo','pelo','mob','vit','soc'].filter(k=>!_lk[k]);
+  if(!_extra.ownership||!_extra.env){ updateFalta();
+    (!_extra.ownership?$('#cardId'):$('#cardLocal')).scrollIntoView({behavior:'smooth',block:'center'});
+    return toast(!_extra.ownership?'Informe se o animal parece ter dono.':'Informe o local do avistamento.'); }
+  const falta=['corpo','pelo','mob','vit','soc','risco'].filter(k=>!_lk[k]);
   if(falta.length){ updateFalta(); $('#cardLik').scrollIntoView({behavior:'smooth',block:'center'});
-    return toast('Preencha as cinco escalas obrigatórias.'); }
+    return toast('Faltam escalas obrigatórias por preencher.'); }
   const lat=+V('fLat')||null,lon=+V('fLon')||null;
   if((!lat||!lon)&&!confirm('Sem coordenada este registro não entra no mapa nem nas análises espaciais. Gravar mesmo assim?'))return;
   btn.disabled=true;btn.textContent='Salvando...';
@@ -1190,7 +1204,9 @@ async function saveRecord(){
     species:_sp, datetime:new Date().toISOString(),
     lat,lon,acc:_geo?_geo.acc:null, bairro:(V('fBairro')||'').trim(), env:V('fEnv'),
     size:_extra.size||null, colorPattern:_extra.colorPattern||null,
-    lkCorpo:_lk.corpo, lkPelo:_lk.pelo, lkMob:_lk.mob, lkVit:_lk.vit, lkSoc:_lk.soc, lkHum:_lk.hum||null,
+    lkCorpo:_lk.corpo, lkPelo:_lk.pelo, lkMob:_lk.mob, lkVit:_lk.vit, lkSoc:_lk.soc,
+    lkRisco:_lk.risco, lkHum:_lk.hum||null,
+    ownership:_extra.ownership, referencia:(V('fRef')||'').trim(),
     bemEstar:+indiceBemEstar(_lk).toFixed(2),
     bcs:bcs9, behavior:BEH5[_lk.soc],
     contexto:_extra.ctx||[], clinical:[..._clin],
@@ -1202,7 +1218,7 @@ async function saveRecord(){
   if(eq) Object.assign(r,{
     sessionId:V('fSes')||null, code:(V('fCode')||'').trim().toUpperCase()||null, resight:V('fResight'),
     marks:(V('fMarks')||'').trim(), sex:V('fSex'), ageClass:V('fAge'), coat:V('fCoat'),
-    collar:V('fCollar'), neutered:V('fNeut'), ownership:V('fOwn'), food:V('fFood'), shelter:V('fShelter'),
+    collar:V('fCollar'), neutered:V('fNeut'), food:V('fFood'), shelter:V('fShelter'),
     pregnant: V('fPreg')==='1'
   });
   try{
@@ -1312,7 +1328,7 @@ async function delRecord(id){
     ST.recs=ST.recs.filter(r=>r.id!==id); renderDados(); toast('Registro excluído.'); }
   catch(e){ toast('Falha ao excluir.'); }
 }
-const COLS=['id','tipo','status','code','resight','species','datetime','sessionId','bairro','env','lat','lon','acc','sex','ageClass','size','colorPattern','coat','collar','neutered','lactating','pregnant','withPups','lkCorpo','lkPelo','lkMob','lkVit','lkSoc','lkHum','bemEstar','bcs','clinical','contexto','behavior','groupSize','ownership','food','shelter','marks','notes','autor'];
+const COLS=['id','tipo','status','code','resight','species','datetime','sessionId','bairro','env','referencia','lat','lon','acc','sex','ageClass','size','colorPattern','coat','collar','neutered','lactating','pregnant','withPups','lkCorpo','lkPelo','lkMob','lkVit','lkSoc','lkRisco','lkHum','bemEstar','bcs','clinical','contexto','behavior','groupSize','ownership','food','shelter','marks','notes','autor'];
 function exportCSV(what){
   const cols=what==='recs'?COLS:['id','name','date','bairro','start','end','distanceKm','method','weather','lat','lon','notes','by'];
   const rows=what==='recs'?ST.recs:ST.ses;
@@ -1327,7 +1343,7 @@ $('#expSes').onclick=()=>exportCSV('ses');
 $('#expJson').onclick=()=>dl(new Blob([JSON.stringify({avistamentos:ST.recs,sessoes:ST.ses,interacoes:ST.inter,exportadoEm:new Date().toISOString()},null,1)],{type:'application/json'}),'patas_caceres_backup_'+new Date().toISOString().slice(0,10)+'.json');
 
 const LKVARS=[['lkCorpo','Condição corporal','corpo'],['lkPelo','Pelagem e pele','pelo'],
-  ['lkMob','Locomoção','mob'],['lkVit','Vitalidade','vit'],['lkSoc','Reação ao observador','soc'],['lkHum','Relação com pessoas','hum']];
+  ['lkMob','Locomoção','mob'],['lkVit','Vitalidade','vit'],['lkSoc','Reação ao observador','soc'],['lkRisco','Risco às pessoas','risco'],['lkHum','Relação com pessoas','hum']];
 const CATV=[['species','Espécie'],['sex','Sexo'],['ageClass','Classe etária'],['bairro','Bairro'],
   ['ownership','Vínculo aparente'],['behavior','Reação ao observador'],['env','Tipo de ambiente'],
   ['food','Fonte de alimento'],['shelter','Abrigo'],['colorPattern','Cor predominante'],['size','Porte']];
